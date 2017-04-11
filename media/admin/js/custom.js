@@ -51,12 +51,12 @@ $(function(){
 		});
 			
 		// Graphs
-		$("#bar table").graphix({width:400,height:340,type:"bar"});
+	/*	$("#bar table").graphix({width:400,height:340,type:"bar"});
         $("#area table").graphix({width:400,height:340,type:"area"});
         $("#pie table").graphix({width:400,height:340,type:"pie"});
         $("#line table").graphix({width:400,height:340,type:"line"});
         $("#bubble table").graphix({width:400,height:340,type:"bubble"})
-		  
+		*/
 		 //------------------------- Table Widget ------------------------------
 		 $('#pagetable').dataTable({
 					

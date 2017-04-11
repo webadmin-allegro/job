@@ -90,6 +90,34 @@ class Controller_Admin_Main extends Controller_Common {
 
     }
 
+
+    public function action_users()
+    {
+        //$id = $this->request->param('id');
+        $content = View::factory('/admin_site/users');
+
+        $res = DB::select('*')
+            ->where('role_id','=',1)
+            ->from('users')
+            ->execute();
+
+        $users = $res->as_array();
+
+        $res = DB::select('*')
+            ->from('roles')
+            ->execute();
+
+        $roles = $res->as_array();
+
+
+        $content->roles = $roles;
+        $content->users = $users;
+
+        $this->template->content = $content;
+
+    }
+    
+
     public function action_categ()
     {
         //$id = $this->request->param('id');

@@ -17,9 +17,7 @@
     <script type="text/javascript" src="/media/admin/js/jQuery.tree.js"></script>
     <script type="text/javascript" src="/media/admin/js/cufon-yui.js"></script>
     <script type="text/javascript" src="/media/admin/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="/media/admin/js/Quicksand_Book_400.font.js"></script>
     <script type="text/javascript" src="/media/admin/js/raphael-min.js"></script>
-    <script type="text/javascript" src="/media/admin/js/graphix.0.9.min.js"></script>
     <script type="text/javascript" src="/media/admin/js/custom.js"></script>
     <script type="text/javascript" src="/media/admin/js/admin.js"></script>
     <script type="text/javascript" src="/media/admin/js/category.js"></script>
@@ -77,8 +75,6 @@
 
     <div class="left-col"><!--  Start of Left Column -->
 
-
-
         <div class="ae-widget-sidebar  minimizable"><!--  Start of Widget Box -->
             <h4 class="ae-widget-header">Side Menu</h4><!--  Widget  header -->
             <div class="ae-widget-content"><!--  Start of Widget Content -->
@@ -86,14 +82,13 @@
                 <ul style="font-weight: bold;color: #000000;font-size: 16px;">
 
                     <li><a href="#">Меню категорий</a>
-
-
+                        
                     </li>
                     <li><a href="#">Организации</a>
 
                     </li>
-                    <li><a href="#">Пользователи</a>
-
+                    <li><a href="/admin_site/main/users">Пользователи</a>
+                    
                     </li>
                     <li><a href="#">Статические страницы</a>
 
