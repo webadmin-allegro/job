@@ -2,7 +2,7 @@
 
 class Controller_Admin_User extends Controller {
 
-//public $template ='admin_alex/reg';
+    public $template ='admin_site/home';
 
     public function action_login()
     {
@@ -75,10 +75,16 @@ class Controller_Admin_User extends Controller {
 
     }
 
+
+    
+
     public function action_logout()
     {
         // Log user out
+
         Auth::instance()->logout();
+
+     //   Cookie::delete('cookie_name');
 
         // Redirect to login page
         HTTP::redirect('/');

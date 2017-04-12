@@ -15,14 +15,16 @@
                     <table id="pagetable" ><!--  Start of Table -->
                         <thead><tr><th>ID</th><th>Пользователи</th><th>Дата регистрации</th><th>Опции</th></tr></thead>
                         <tbody>
+                        <?php  if (!empty($users)) foreach ( $users as $v) : ?>
                         <tr>
-                            <?php  if (!empty($users)) foreach ( $users as $v) : ?>
+
                                 <td><?=$v['id'];?></td>
-                            <td><?=$v['username'];?></td>
+                                <td><?=$v['username'];?></td>
                                 <td><?=$v['created'];?></td>
                                 <td><img src="/media/admin/css/icons/option-sprite.jpg" alt="option-sprite" /></td>
-                            <?php endforeach;?>
+
                         </tr>
+                        <?php endforeach;?>
                         </tbody>
                     </table><!--  End of Table -->
 
@@ -41,32 +43,29 @@
                 <table class="table  table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th class="span1 t-a_c">
-                                    <span class="frame_label">
-                                        <span class="niceCheck" style="background-position: -46px 0px;">
-                                            <input type="checkbox">
-                                        </span>
-                                    </span>
-                        </th>
+
                         <th class="span1">ID</th>
                         <th>Название</th>
                         <th>Описание</th>
+                        <th>Опции</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php if (!empty($roles)) foreach ( $roles as $v) : ?>
                     <tr data-id="1" data-imp="1">
 
-
-
-                        <td class="span1 t-a_c">
-                        </td>
                         <td><?=$v['id'];?></td>
                         <td>
-                            <a data-rel="tooltip" data-placement="top" data-original-title="Редактировать роль" href="/admin/rbac/roleEdit/1"><?=$v['name'];?></a>
+                            <a data-rel="tooltip" data-placement="top" data-original-title="Редактировать роль" href="/admin_site/main/rbac_edit/<?=$v['id'];?>"><?=$v['name'];?></a>
                         </td>
                         <td>
                             <?=$v['description'];?>
+                        </td>
+                        <td>
+                            <?php if ($v['name'] != 'admin'):?>
+                            <a href="/admin_site/main/rbac_edit/<?=$v['id'];?>" style="display: inline-block; width:40px; height:40px; background: url('/media/admin/css/icons/option-sprite.jpg') 11px 4px"></a>
+                            <a class="delete_roles" href="" style="display: inline-block; width:40px; height:40px; background: url('/media/admin/css/icons/option-sprite.jpg') -77px 4px"></a>
+                            <?php endif;?>
                         </td>
 
                     </tr>

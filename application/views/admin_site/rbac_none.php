@@ -3,7 +3,7 @@
     <div id="tab" class="ae-widget"> <!--  Start of Tab Widget -->
 
         <ul class="ae-widget-header">  <!--  Start of Tab Controls -->
-            <li><a href="#">Edit Password</a></li>
+            <li><a href="#">Warning</a></li>
         </ul> <!--  End of Tab Controls -->
 
         <div id="message_box">
@@ -15,28 +15,8 @@
 
             <div id="tab1" > <!--  Start of Tab 1 -->
 
-
-
-                <style>
-                    select { width:160px; height:30px; font-weight:bold; }
-                </style>
-                <h4></h4>
-                <form method="post" enctype="multipart/form-data" action="/admin_site/user/reset">
-
-                    <h4>Изменить пароль</h4>
-                    <label for="medium">Введите старый пароль</label>
-                    <input type="text" name="passS"  class="medium ui-corner-all" id="medium"/>
-
-
-                    <input type="hidden" name="id" value="1"  class="medium ui-corner-all" id="medium"/>
-
-                    <label for="medium">Введите новый пароль</label>
-                    <input type="text" name="passN" class="medium ui-corner-all" id="medium"/>
-
-
-
-                    <input type="submit" name="submit" value="Сохранить изменения"  class="button"/>
-                </form>
+                <h2 style="color: #0a001f">Вам запрещен доступ в этот раздел, обратитесь к администратору </h2>
+             
 
                 </div>  <!--  End of Tab 1 -->
 

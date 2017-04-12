@@ -107,7 +107,7 @@ abstract class Kohana_Auth {
 			$this->_session->destroy();
 		}
 		else
-		{
+		{ 
 			// Remove the user from the session
 			$this->_session->delete($this->_config['session_key']);
 

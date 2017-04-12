@@ -39,7 +39,7 @@ class Controller_User extends Controller_Common {
                 // Reset values so form is not sticky
                 $_POST = array();
 
-                Session::instance()->set('auth', $user->username);
+                 Session::instance()->set('auth', $user->username);
                  Request::current()->redirect('/');
                 // Set success message
                 //$message = "Логин  '{$user->username}' успешно добавлен в базу.Спасибо за регистрацию!";
@@ -83,8 +83,11 @@ class Controller_User extends Controller_Common {
         // Log user out
         $session = Session::instance();
         $session->delete('auth');
+
+        Auth::instance()->logout(false,true);
+        Session::instance()->destroy();
      // Redirect to login page
-        Request::current()->redirect('/');
+        HTTP::redirect('/');
     }
 
     /**

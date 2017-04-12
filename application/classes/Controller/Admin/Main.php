@@ -54,14 +54,34 @@ class Controller_Admin_Main extends Controller_Common {
 	 public function before()
     {
         parent::before();
-        
-        if (!Auth::instance()->logged_in('admin'))
+
+        if (!Auth::instance()->logged_in())
         {
-			/*echo View::factory('/admin_alex/reg');
-			exit();*/
-            $this->request->redirect('/admin_site/reg');
+            HTTP::redirect('/admin_site/user/login');
+
+        }
+
+        $user = ORM::factory('user')->where('id','=',Auth::instance()->get_user())->find();
+
+        $res = DB::select('rbac_privileges.action')
+            ->join('rbac_privileges','left')
+            ->on('rbac_privileges.id', '=', 'rbac_roles_privileges.privilege_id')
+            ->where('rbac_roles_privileges.role_id','=',$user->role_id)
+            ->from('rbac_roles_privileges')
+            ->execute()
+            ->as_array();
+
+        $this->template->user = $user;
+
+        $rbac = ['rbac_none'];
+        foreach ($res as $v) $rbac[] = $v['action'];
+
+        if (!in_array($this->request->action(),$rbac))
+        {
+            HTTP::redirect('/admin_site/main/rbac_none');
+           // die('Доступ запрещен');
         } 
-		   // else $this->request->redirect('/admin_alex/main');
+
     }
 	
 	
@@ -72,10 +92,22 @@ class Controller_Admin_Main extends Controller_Common {
 		//$id = $this->request->param('id');
 		$content = View::factory('/admin_site/main');
 
+
 	       
 		 $this->template->content = $content;
 			
 	}
+
+    public function action_rbac_none()
+    {
+        //$id = $this->request->param('id');
+        $content = View::factory('/admin_site/rbac_none');
+
+
+
+        $this->template->content = $content;
+
+    }
 
 
 
@@ -97,7 +129,6 @@ class Controller_Admin_Main extends Controller_Common {
         $content = View::factory('/admin_site/users');
 
         $res = DB::select('*')
-            ->where('role_id','=',1)
             ->from('users')
             ->execute();
 
@@ -112,6 +143,24 @@ class Controller_Admin_Main extends Controller_Common {
 
         $content->roles = $roles;
         $content->users = $users;
+
+        $this->template->content = $content;
+
+    }
+
+    public function action_rbac_edit()
+    {
+        $id = $this->request->param('id');
+        $content = View::factory('/admin_site/rbac_edit');
+
+        $roles = DB::select('*')->where('id','=',$id)->from('roles')->execute()->as_array();
+
+        $priv = DB::select('*')->from('rbac_privileges')->group_by('action')->execute()->as_array();
+
+        $content->privileges = $priv;
+        $content->roles = $roles;
+
+
 
         $this->template->content = $content;
 

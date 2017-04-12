@@ -143,7 +143,7 @@ Kohana::modules(array(
  * uncomment the line below and define a preferrably long salt.
  */
 
-Cookie::$domain = '.job';
+//Cookie::$domain = '.job';
 Cookie::$salt = 'secret_code_fare';
 Session::$default = 'cookie';
 
