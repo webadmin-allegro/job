@@ -13,18 +13,24 @@
                 <div class="ae-widget">
                     <table class="table" ><!--  Start of Table -->
                         <thead><tr><th></th><th>Действие</th><th>Описание</th></tr></thead>
-                        <tbody><?php var_dump($roles); ?>
-                        <?php  if (is_array($privileges)) foreach ( $privileges as $v) : ?>
+                        <tbody>
+                        <form method="post">
+                        <?php  if (is_array($privileges)) foreach ($privileges as $k=>$priv): ?>
+                         <tr><td><?php echo $k;?></td></tr>
+                        <?php  if ($priv) foreach ( $priv as $v): ?>
                         <tr>
-                            <td><input type="checkbox" name="<?=$v['action'];?>" value="" ></td>
+                            <td><input type="checkbox" name="<?=$v['id'];?>" value="<?=$v['id'];?>" <?php if ($privileges_roles[$v['id']]): ?>checked <?php endif; ?>></td>
                             <td><?=$v['action'];?></td>
                             <td><?=$v['desc'];?></td>
                         </tr>
+                            <?php endforeach;?>
                         <?php endforeach;?>
+                            <tr><td></td><td></td>
+                                <td><input style="display: inline-block;cursor: pointer;    color: white; background: green;" type="submit" value="Сохранить изминения"> </td>
+                            </tr>
+                        </form>
                         </tbody>
                     </table><!--  End of Table -->
-
-
 
                 </div>
 

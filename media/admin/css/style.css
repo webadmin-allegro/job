@@ -22,11 +22,11 @@ td{padding:20px 10px;color:#000;}
 
 table,td,tr .menu_adm {border: none !important;  margin-bottom: 0px;}
 
-input[type=text] { background:url(i/text-bg.png) repeat-x; padding:7px;  border: 1px solid #fff; border-left:1px solid #d6d6d6; border-top:1px solid #d6d6d6;margin:4px;}
+input[type=text],input[type=email]  { background:url(i/text-bg.png) repeat-x; padding:7px;  border: 1px solid #fff; border-left:1px solid #d6d6d6; border-top:1px solid #d6d6d6;margin:4px;}
 textarea { background:#e5e5e5 url(i/text-bg.png) repeat-x; padding:7px; border:1px solid #cbcbcb; margin:4px;}
 input[type=submit] { padding:7px; margin:4px; }
 form { margin:6px 4px; }
-table input[type=text] {width: 250px;}
+table input[type=text],input[type=email]  {width: 250px;}
 /* ------------------------------ Typography  ---------------------------- */
 body { font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#565656; line-height:1.5; letter-spacing:1px; }
 h1 { font-size:36px; color:#fff; font-weight:100; padding-top:3px;  }

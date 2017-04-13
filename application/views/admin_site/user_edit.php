@@ -3,7 +3,7 @@
 <div id="tab" class="ae-widget"> <!--  Start of Tab Widget -->
 
 <ul class="ae-widget-header">  <!--  Start of Tab Controls -->
-    <li><a href="#">Edit goods</a></li>
+    <li><a href="#">Пользователь <?php echo $user[0]['username'] ?></a></li>
 </ul> <!--  End of Tab Controls -->
 
 <div id="message_box">
@@ -17,32 +17,30 @@
 
     <div class="ae-widget">
         <h4 align="center"></h4>
-        <form method="post" enctype="multipart/form-data" action="/admin_leks/goods/edit">
-           <!-- <h4>Выберите категорию</h4>
+        <form method="post" enctype="multipart/form-data">
+
+            <label for="medium">Пользователь</label>
+            <input type="text" name="username" required value="<?=$user[0]['username'];?>" class="medium ui-corner-all" id="medium"/>
+            <label for="long">Email</label>
+            <input type="email" name="email" required value="<?=$user[0]['email'];?>" class="medium ui-corner-all" id="medium"/>
+            <label for="long">Телефон</label>
+            <input type="text" name="phone" value="<?=$user[0]['phone'];?>" class="medium ui-corner-all" id="medium"/>
+            <label for="long">Пароль</label>
+            <input id="password1" type="text" name="pass" class="medium ui-corner-all" id="medium"/>
+            <label for="long">Подтверждения пароля</label><span id="password22"></span>
+            <input id="password2" type="text" name="pass_n" class="medium ui-corner-all" id="medium"/>
+            <input type="hidden" name="id" class="small ui-corner-all" id="small" value="<?=$user[0]['id'];?>"/>
+            <label for="medium">Роль</label>
             <div class="ui-widget">
 
-                <select type=text name="cat">
-                    <?php // foreach ($menu as $men): ?>
-                    <option value='<?//=$men['id'];?>'><?//=$men['category'];?></option>
-                    <?php // endforeach;?>
+                <select type=text name="role_id">
+                    <?php if (is_array($roles)) foreach ($roles as $men): ?>
+                    <option <?php if ($men['id'] == $user[0]['role_id']):?>selected<?php endif;?> value='<?=$men['id'];?>'><?=$men['name'];?></option>
+                    <?php  endforeach;?>
                 </select>
-            </div>     -->
-            <label for="medium">Категория</label> <?php if ($cat )  foreach ($cat as $men): ?>
-            <input type="text" name="cat" value="<?=$men['category'];?>" class="medium ui-corner-all" id="medium"/>
-            <?php  endforeach;?>
-            <label for="medium">Название</label>
-            <input type="text" name="title" value="<?=$news->title;?>" class="medium ui-corner-all" id="medium"/>
-            <label for="long">META-description</label>
-            <input type="text" name="meta_d" value="<?=$news->meta_d;?>" class="long ui-corner-all" id="long"/>
-            <label for="long">META-keywords</label>
-            <input type="text" name="meta_k" value="<?=$news->meta_k;?>" class="long ui-corner-all" id="long"/>
-            <input type="hidden" name="id" class="small ui-corner-all" id="small" value="<?=$news->id;?>"/>
-            <h4>Описание</h4>
-           <!-- <textarea name="desc" rows="8" cols="62"><?//=$news->desc;?></textarea> -->
-            <?php  Controller_Admin_Main::ckeditor('desc', $news->desc) ?>
-            <h4>Текст</h4>
-            <?php  Controller_Admin_Main::ckeditor('text', $news->text) ?>
+            </div>
 
+            <div style="margin-top: 20px"></div>
 
             <input style="margin-bottom:20px" type="submit" name="submit" value="Сохранить изменения"  class="button"/>
         </form>
@@ -55,24 +53,24 @@
 </div>  <!--  End of Tab 1 -->
  </div>
 
-<p style="color:#000; font-size: 12px; font-weight: bold; margin: 10px;">Добавить фото на слайдер</p>
-<form enctype="multipart/form-data" name="uploadform" id="uploadform" action="/admin_leks/goods/new_images" method="post">
     <script type="text/javascript">
-        upload = new adekMultiUpload('uploadform',15,[".jpg",".gif",".png"],'img');
-        upload.init();
-    </script>
-    <input type="hidden" name="id" value="<?=$news->id;?>"/>
-    <input style="margin-top:20px" type="submit" name="submit" value="Добавить"  class="button"/>
-</form>
+        $(document).ready(function(){
+            document.getElementById("password1").onchange = validatePassword;
+            document.getElementById("password2").onchange = validatePassword;
+        });
+        function validatePassword() {
+            var pass2 = document.getElementById("password2").value;
+            var pass1 = document.getElementById("password1").value;
 
-       <h4 align="center">Изображения слайдера</h4>
-<?php if (!empty($news->slider)): $a = unserialize($news->slider);
-    foreach ($a as $b): ?>
-<form method="post" action="/admin_leks/goods/delete_img">
-    <input type="hidden" name="id" value="<?=$news->id;?>"/>
-    <input name="name" value="<?=$b;?>" onclick="return confirm('Вы уверены в удалении фотографии?')" type="image" style="float: left; margin: 10px; width:100px; height:100px" src="/media/img/<?=$b;?>"/>
-</form>
-        <?php endforeach; endif;?>
+            if (pass1 != pass2){
+                $("#password22").html("<span style='color:red'>Пароли не совпадают</span>");
+            }else{
+                $("#password22").html("");
+            }
+
+        }
+    </script>
+
 <div> <!--  Start of Tab 2 -->
 
 <h4 align="center">Добавить товар</h4>

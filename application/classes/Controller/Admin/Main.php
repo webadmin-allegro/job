@@ -89,10 +89,7 @@ class Controller_Admin_Main extends Controller_Common {
 	
     public function action_index()
     {
-		//$id = $this->request->param('id');
 		$content = View::factory('/admin_site/main');
-
-
 	       
 		 $this->template->content = $content;
 			
@@ -100,11 +97,8 @@ class Controller_Admin_Main extends Controller_Common {
 
     public function action_rbac_none()
     {
-        //$id = $this->request->param('id');
         $content = View::factory('/admin_site/rbac_none');
-
-
-
+        
         $this->template->content = $content;
 
     }
@@ -115,8 +109,7 @@ class Controller_Admin_Main extends Controller_Common {
     {
         //$id = $this->request->param('id');
         $content = View::factory('/admin_site/str');
-
-
+        
 
         $this->template->content = $content;
 
@@ -148,21 +141,158 @@ class Controller_Admin_Main extends Controller_Common {
 
     }
 
+
+    public function action_user_edit()
+    {
+        $id = $this->request->param('id');
+
+
+        if ($_POST['id']){
+
+            $data = $_POST;
+            $role_index = DB::select('id')->from('rbac_roles_privileges')->where('role_id','=',$data['role_id'])->and_where('privilege_id','=',1) ->execute();
+            DB::delete('roles_users')->where('user_id', '=', $data['id'])->execute();
+
+            if ($role_index[0]['id']){
+
+                for ($i=1;$i<=2;$i++) {
+                    DB::insert('roles_users', array('role_id', 'user_id'))
+                        ->values(array($i, $data['id']))->execute();
+                }
+            }
+
+            if (!empty($data['pass']) && $data['pass'] == $data['pass_n']){
+
+                $user = ORM::factory('user',$data['id']);
+                $password = trim($data['pass']);
+
+                $user->password = $password;
+                $user->save();
+
+            }
+
+            $post = [
+                'username'=>$data['username'],
+                'email'   =>$data['email'],
+                'phone'   =>$data['phone'],
+                'role_id' =>$data['role_id'],
+            ];
+
+
+             DB::update('users')
+                ->set($post)
+                ->where('id', '=', $data['id'])
+                ->execute();
+
+            HTTP::redirect('/admin_site/main/users');
+
+        }
+
+
+        $content = View::factory('/admin_site/user_edit');
+
+        $user = DB::select('*')
+            ->where('id','=',$id)
+            ->from('users')
+            ->execute()
+            ->as_array();
+
+        $roles = DB::select('*')
+            ->from('roles')
+            ->execute()
+            ->as_array();
+        
+        $content->roles = $roles;
+        $content->user = $user;
+
+        $this->template->content = $content;
+
+    }
+
+    public function action_user_delete()
+    {
+        if ($_POST['id']) {
+
+            $id = (int)$_POST['id'];
+            DB::delete('roles_users')->where('user_id', '=', $id)->execute();
+            DB::delete('users')->where('id', '=', $id)->execute();
+
+            echo 1;
+            exit;
+        }
+
+
+    }
+
     public function action_rbac_edit()
     {
         $id = $this->request->param('id');
+
+
+        if (count($_POST)>0){
+
+             DB::delete('rbac_roles_privileges')->where('role_id', '=', $id)->execute();
+
+            foreach ($_POST as $v) {
+                DB::insert('rbac_roles_privileges', array('role_id', 'privilege_id'))
+                    ->values(array($id, $v))->execute();
+            }
+
+            HTTP::redirect('/admin_site/main/users');
+
+        }
+
         $content = View::factory('/admin_site/rbac_edit');
 
         $roles = DB::select('*')->where('id','=',$id)->from('roles')->execute()->as_array();
 
         $priv = DB::select('*')->from('rbac_privileges')->group_by('action')->execute()->as_array();
 
-        $content->privileges = $priv;
-        $content->roles = $roles;
+        foreach ($priv as $v){
+            $pr[$v['group_name']][] = $v;
+        }
 
+        $priv_roles = DB::select('privilege_id')->where('role_id','=',$id)->from('rbac_roles_privileges')->execute()->as_array();
+
+        foreach ($priv_roles as $v){
+            $pr_roles[$v['privilege_id']] = $v['privilege_id'];
+        }
+
+        $content->privileges = $pr;
+        $content->roles = $roles;
+        $content->privileges_roles = $pr_roles;
 
 
         $this->template->content = $content;
+
+    }
+
+    public function action_rbac_delete()
+    {
+        if ($_POST['id']) {
+
+             $id = (int)$_POST['id'];
+             DB::delete('roles')->where('id', '=', $id)->execute();
+             DB::delete('rbac_roles_privileges')->where('role_id', '=', $id)->execute();
+
+             echo 1;
+             exit;
+        }
+
+
+    }
+
+    public function action_rbac_add()
+    {
+        if ($_POST) {
+
+           $id = DB::insert('roles', array('name', 'description'))
+                ->values(array($_POST['name'], $_POST['description']))->execute();
+
+            HTTP::redirect('/admin_site/main/rbac_edit/'.$id[0]);
+
+        }
+
 
     }
     
@@ -225,31 +355,6 @@ class Controller_Admin_Main extends Controller_Common {
 
     }
 
-    public function action_slider()
-    {
-        //$id = $this->request->param('id');
-        $content = View::factory('/admin_site/slider');
-
-        $this->template->content = $content;
-
-    }
-
-    public function action_gallery()
-    {
-        //$id = $this->request->param('id');
-        $content = View::factory('/admin_site/gallery');
-
-        $sq = "SELECT * FROM gallery";
-        $quer = DB::query(Database::SELECT, $sq)
-            ->execute();
-        $news = $quer->as_array();
-
-        $content->news = $news;
-
-        $this->template->content = $content;
-
-    }
-
 
     public function action_goods_edit()
     {
@@ -266,34 +371,6 @@ class Controller_Admin_Main extends Controller_Common {
         $cat = $res->as_array();
 
         $content->cat = $cat;
-        $content->news = $news;
-
-        $this->template->content = $content;
-
-    }
-
-    public function action_news()
-    {
-        //$id = $this->request->param('id');
-        $content = View::factory('/admin_site/news');
-
-        $sq = "SELECT * FROM news ORDER BY id DESC";
-        $quer = DB::query(Database::SELECT, $sq)
-            ->execute();
-        $news = $quer->as_array();
-
-        $content->news = $news;
-        $this->template->content = $content;
-
-    }
-
-    public function action_news_edit()
-    {
-        $id = $this->request->param('id');
-        $content = View::factory('/admin_site/news_edit');
-
-        $news = ORM::factory('news')->where('id', '=', $id)->find();
-
         $content->news = $news;
 
         $this->template->content = $content;
