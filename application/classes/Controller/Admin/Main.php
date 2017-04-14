@@ -55,9 +55,17 @@ class Controller_Admin_Main extends Controller_Common {
     {
         parent::before();
 
-        if (!Auth::instance()->logged_in())
+        $this->auth  = Auth::instance();
+
+        if ($this->auth->logged_in())
         {
-            HTTP::redirect('/admin_site/user/login');
+            $this->user = $this->auth->get_user();
+            $this->user_roles = Model::factory('User')->user_roles($this->user->id);
+          
+            if (!$this->user_roles){
+                  HTTP::redirect('/');
+            }
+          
 
         }
 

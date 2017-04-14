@@ -17,7 +17,7 @@ class Controller_Admin_User extends Controller {
             // Attempt to login user
             $remember = true;
             $user = Auth::instance()->login($this->request->post('username'), $this->request->post('password'), $remember);
-
+        
             // If successful, redirect user
             if ($user)
             {
