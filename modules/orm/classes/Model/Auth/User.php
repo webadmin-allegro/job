@@ -163,7 +163,7 @@ class Model_Auth_User extends ORM {
 		// Validation for passwords
 		$extra_validation = Model_User::get_password_validation($values)
 			->rule('password', 'not_empty');
-
+		
 		return $this->values($values, $expected)->create($extra_validation);
 	}
 

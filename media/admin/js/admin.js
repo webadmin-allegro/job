@@ -1,7 +1,7 @@
 		
 	$(document).ready(function(){
  	
-	//����������� ������� �� ������ � ������
+
 			//$('a[id=product]').click(function(){show("catalog.php");});
 			$('a[id=category]').click(function(){show("admin/main/categ");});
 	});  	

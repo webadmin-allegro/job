@@ -1,17 +1,11 @@
 ﻿<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-2">
-                <div class="logo">
-                    <a href="">
-                        <img src="/media/img/LoGotheBesTOriginal.png" alt="logo" />
-                    </a>
-                </div>
-            </div>
-            <div class="col-xs-6"></div>
-            <div class="col-xs-4">
-                <span class="float_right">Все права защищены 	&#174;</span>
-            </div>
-        </div>
+    <div class="footer_logo">
+        <a href="">
+            <img title="Поиск вакансий, доска вакансий" src="http://shengenvisa.net/img/jobseor-company.png" alt="Доска поиска вакансий" />
+        </a>
+    </div>
+    <div class="footer_right">
+        <p><a href="/support.php" >Техническая поддержка </a></p>
+        <p>Все права защищены ®</p>
     </div>
 </footer>

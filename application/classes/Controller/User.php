@@ -25,14 +25,24 @@ class Controller_User extends Controller_Common {
                                          ->bind('message', $message);
 
         if (HTTP_Request::POST == $this->request->method())
-        {
+        { 
             try
             {
 
+                $data = array(
+                    'username' => $_POST['username'],
+                    'password' => $_POST['password'],
+                    'email' => $_POST['email'],
+                    'profession' => $_POST['profession'],
+                    'phone' => $_POST['phone'],
+                    'role_id'=>1,
+                    'password_confirm' => $_POST['password'],
+                   // 'token' => $token,
+                );
+
                 // Create the user using form values
                 $user = ORM::factory('user')
-                    ->create_user($this->request->post(), array('username', 'password', 'email','profession','tell'));
-
+                    ->create_user($data, array('username', 'password', 'email','profession','phone','role_id'));
                 // Grant user login role
                 $user->add('roles', ORM::factory('role', array('name' => 'login')));
 
@@ -40,7 +50,7 @@ class Controller_User extends Controller_Common {
                 $_POST = array();
 
                  Session::instance()->set('auth', $user->username);
-                 Request::current()->redirect('/');
+                 HTTP::redirect('/');
                 // Set success message
                 //$message = "Логин  '{$user->username}' успешно добавлен в базу.Спасибо за регистрацию!";
 
@@ -189,6 +199,33 @@ class Controller_User extends Controller_Common {
         }
 
         $this->template->content = View::factory('/pages/user/reset')->bind('message', $message);
+    }
+
+    public function action_approved()
+    {
+        $token = $this->request->query('token');
+        if($token){
+            // ищем пользователя с нужным токеном
+            $user = ORM::factory('User')->where('token', '=', $token)->find();
+            if($user->get('id')){
+
+                // добавляем пользователю роль login, чтобы он мог авторизоваться
+                $user->add('roles',ORM::factory('role',array('name'=>'login')));
+
+                // Чистим поле с токеном
+                $user->update_user(array('token'=>null), array('token'));
+
+                // Можно сразу и авторизовать и перенаправить ЛК
+                Auth::instance()->force_login($user->get('username'));
+                $this->redirect("/users/login");
+
+                // Или переадресовать на форму входа для ввода логина и пароль
+                //$this->redirect("/users/login");
+            }
+        }
+
+        // Делаем редирект на страницу авторизации
+        $this->redirect("/users/login");
     }
 
 }

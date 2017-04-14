@@ -1,4 +1,4 @@
-﻿<?php defined('SYSPATH') or die('No direct access allowed.');
+<?php defined('SYSPATH') or die('No direct access allowed.');
 
 return array(
 	'title'       => 'Поиск вакансий в Европе-Прямые работодатели',
