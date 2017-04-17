@@ -41,7 +41,7 @@ class Controller_Admin_User extends Controller {
         {
 
        // $id = $this->request->param('id');
-                $user = ORM::factory('user',1);
+                $user = ORM::factory('User',1);
 
                 $data = Arr::extract($_POST, array('passS', 'passN'));
 

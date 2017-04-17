@@ -19,7 +19,7 @@ abstract class Controller_Common extends Controller_Template {
 		
         parent::before();
 
-        $user = ORM::factory('user')->where('id','=',Auth::instance()->get_user())->find();
+        $user = ORM::factory('User')->where('id','=',Auth::instance()->get_user())->find();
 
         View::set_global(array(
         'title' => !isset($this->title)?$this->main_config->get('title'):$this->title,

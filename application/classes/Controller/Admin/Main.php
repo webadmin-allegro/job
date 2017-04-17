@@ -69,7 +69,7 @@ class Controller_Admin_Main extends Controller_Common {
 
         }
 
-        $user = ORM::factory('user')->where('id','=',Auth::instance()->get_user())->find();
+        $user = ORM::factory('User')->where('id','=',Auth::instance()->get_user())->find();
 
         $res = DB::select('rbac_privileges.action')
             ->join('rbac_privileges','left')
@@ -171,7 +171,7 @@ class Controller_Admin_Main extends Controller_Common {
 
             if (!empty($data['pass']) && $data['pass'] == $data['pass_n']){
 
-                $user = ORM::factory('user',$data['id']);
+                $user = ORM::factory('User',$data['id']);
                 $password = trim($data['pass']);
 
                 $user->password = $password;

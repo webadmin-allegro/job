@@ -47,10 +47,10 @@ class Controller_User extends Controller_Common {
                 );
 
                 // Create the user using form values
-                $user = ORM::factory('user')
+                $user = ORM::factory('User')
                     ->create_user($data, array('username','password','email','profession','phone','role_id','img'));
                 // Grant user login role
-                $user->add('roles', ORM::factory('role', array('name' => 'login')));
+                $user->add('roles', ORM::factory('Role', array('name' => 'login')));
 
                 // Reset values so form is not sticky
                 $_POST = [];
@@ -123,7 +123,7 @@ class Controller_User extends Controller_Common {
 
         if (isset($_POST['reset_email']))
         {
-            $user = ORM::factory('user')->where('email', '=', $_POST['reset_email'])->find();
+            $user = ORM::factory('User')->where('email', '=', $_POST['reset_email'])->find();
 
             // admin passwords cannot be reset by email
             if (is_numeric($user->id) && ($user->username != 'admin'))
@@ -179,7 +179,7 @@ class Controller_User extends Controller_Common {
             // make sure that the reset_token has exactly 32 characters (not doing that would allow resets with token length 0)
             if ((strlen($_REQUEST['reset_token']) == 32) && (strlen(trim($_REQUEST['reset_email'])) > 1))
             {
-                $user = ORM::factory('user')->where('email', '=', $_REQUEST['reset_email'])->and_where('reset_token', '=', $_REQUEST['reset_token'])->find();
+                $user = ORM::factory('User')->where('email', '=', $_REQUEST['reset_email'])->and_where('reset_token', '=', $_REQUEST['reset_token'])->find();
 
                 if (is_numeric($user->id) && ($user->reset_token == $_REQUEST['reset_token']))
                 {
@@ -224,7 +224,7 @@ class Controller_User extends Controller_Common {
             if($user->get('id')){
 
                 // добавляем пользователю роль login, чтобы он мог авторизоваться
-                $user->add('roles',ORM::factory('role',array('name'=>'login')));
+                $user->add('roles',ORM::factory('Role',array('name'=>'login')));
 
                 // Чистим поле с токеном
                 $user->update_user(array('token'=>null), array('token'));
