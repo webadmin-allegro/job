@@ -1018,7 +1018,8 @@ footer span {
 
 .my_money .my_money-score {
     display: inline-block;
-    width: 49%;
+	 float: left;
+    width: 33%;
     color: rgba(155, 155, 155, 0.8)
 }
 
@@ -1027,8 +1028,8 @@ footer span {
 }
 
 .my_money .my_money-button {
-    width: 50%;
-    float: right
+    width: 35%;
+    float: left;
 }
 
 .my_money .my_money-button button {

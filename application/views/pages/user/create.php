@@ -1,6 +1,7 @@
 <script src="/media/js/register.js"></script>
 <div class="reg_wrapper">
     <div class="container">
+        <h3 style="color: red;"><?php if (!empty ($errors) && is_array($errors)) foreach( $errors as $v) echo $v;?></h3>
         <form method="post" enctype="multipart/form-data">
             <div class="main_form new reg_user">
                 <h3 class="reg_user">Регистрация</h3>
@@ -63,7 +64,7 @@
                                 <p>Пароль <span>*</span></p>
                             </div>
                             <div class="col-xs-7">
-                                <input required class="input_width" type="password" name="password">
+                                <input required class="input_width" type="password" name="password" minlength="8">
                             </div>
                         </div>
                     </div>
@@ -73,7 +74,7 @@
                                 <p>Подтверждение пароля <span>*</span></p>
                             </div>
                             <div class="col-xs-7">
-                                <input required class="input_width" type="password" name="password_">
+                                <input required class="input_width" type="password" name="password_" minlength="8">
                             </div>
                         </div>
                     </div>

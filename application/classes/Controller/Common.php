@@ -18,11 +18,14 @@ abstract class Controller_Common extends Controller_Template {
         $this->main_config = Kohana::$config->load('main');
 		
         parent::before();
-		
+
+        $user = ORM::factory('user')->where('id','=',Auth::instance()->get_user())->find();
+
         View::set_global(array(
         'title' => !isset($this->title)?$this->main_config->get('title'):$this->title,
 	    'keywords' => !isset($this->keywords)?$this->main_config->get('keywords'):$this->keywords,
-        'description' => !isset($this->description)?$this->main_config->get('description'):$this->description
+        'description' => !isset($this->description)?$this->main_config->get('description'):$this->description,
+        'user'  => $user ? $user : '',
          )); 
 		 
     }

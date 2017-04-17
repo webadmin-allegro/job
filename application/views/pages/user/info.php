@@ -10,6 +10,15 @@
                 <div class="my_money-button">
                     <button type="button" name="button">пополнить счет</button>
                 </div>
+
+                <div style="margin-top: 10px; margin-left: 13px; display: inline-block;">
+                    <?php if ($user->img): ?>
+                    <img width="70" height="70" src="/media/users/<?php echo $user->email; ?>/<?php echo $user->img; ?>">
+                     <?php else: ?>
+                        <img width="70" height="70" src="/media/images/nophoto.jpg">
+                    <?php endif; ?>
+                </div>
+
             </div>
         </div>
     </div>
@@ -27,7 +36,7 @@
                         <p>ФИО</p>
                     </div>
                     <div class="col-xs-7">
-                        <input class="input_width" type="text">
+                        <input class="input_width" type="text" value="<?php echo $user->username; ?>">
                         <button class="button-main" type="button" name="button">Изменить</button>
                     </div>
                 </div>
@@ -73,7 +82,7 @@
                         <p>Телефон</p>
                     </div>
                     <div class="col-xs-7">
-                        <input type="tel" class="input_width">
+                        <input type="tel" class="input_width" value="<?php echo $user->phone; ?>">
                         <small>(телефон указывается в международном формате)</small>
                     </div>
                 </div>
@@ -82,7 +91,7 @@
                         <p>Старый e-mail</p>
                     </div>
                     <div class="col-xs-7">
-                        <input type="email" class="input_width">
+                        <input type="email" class="input_width" value="<?php echo $user->email; ?>">
                     </div>
                 </div>
                 <div class="row">

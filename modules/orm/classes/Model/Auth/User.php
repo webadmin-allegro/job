@@ -33,7 +33,7 @@ class Model_Auth_User extends ORM {
 			'username' => array(
 				array('not_empty'),
 				array('max_length', array(':value', 32)),
-				array(array($this, 'unique'), array('username', ':value')),
+				//array(array($this, 'unique'), array('username', ':value')),
 			),
 			'password' => array(
 				array('not_empty'),

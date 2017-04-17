@@ -6,28 +6,33 @@ class Controller_User extends Controller_Common {
 
     public function action_index()
     {
-        $this->template->content = View::factory('/pages/user/info')->bind('user', $user);
 
         // Load the user information
         $user = Auth::instance()->get_user();
 
+        $this->template->content = View::factory('/pages/user/info')->bind('user', $user);
+
         // if a user is not logged in, redirect to login page
         if (!$user)
         {
-            Request::current()->redirect('/pages/user/login');
+            HTTP::redirect('/user/login');
         }
     }
 
     public function action_create()
     {
-        $this->template->content = View::factory('/pages/user/create')
-                                         ->bind('errors', $errors)
-                                         ->bind('message', $message);
+
+        if (Auth::instance()->logged_in())
+        {
+            HTTP::redirect('/');
+        }
 
         if (HTTP_Request::POST == $this->request->method())
         { 
             try
             {
+
+                $file = $this->upload($_POST['email']);
 
                 $data = array(
                     'username' => $_POST['username'],
@@ -36,20 +41,23 @@ class Controller_User extends Controller_Common {
                     'profession' => $_POST['profession'],
                     'phone' => $_POST['phone'],
                     'role_id'=>1,
+                    'img' => $file ? $file : null,
                     'password_confirm' => $_POST['password'],
                    // 'token' => $token,
                 );
 
                 // Create the user using form values
                 $user = ORM::factory('user')
-                    ->create_user($data, array('username', 'password', 'email','profession','phone','role_id'));
+                    ->create_user($data, array('username','password','email','profession','phone','role_id','img'));
                 // Grant user login role
                 $user->add('roles', ORM::factory('role', array('name' => 'login')));
 
                 // Reset values so form is not sticky
-                $_POST = array();
+                $_POST = [];
 
-                 Session::instance()->set('auth', $user->username);
+                 Auth::instance()->login($data['email'], $data['password'], true);
+
+                 Session::instance()->set('auth', $user->email);
                  HTTP::redirect('/');
                 // Set success message
                 //$message = "Логин  '{$user->username}' успешно добавлен в базу.Спасибо за регистрацию!";
@@ -63,39 +71,45 @@ class Controller_User extends Controller_Common {
                 $errors = $e->errors('models');
             }
         }
+
+        $this->template->content = View::factory('/pages/user/create')
+            ->bind('errors', $errors)
+            ->bind('message', $message);
     }
 
     public function action_login()
     {
-        $this->template->content = View::factory('/pages/user/login')->bind('message', $message);
+        if (Auth::instance()->logged_in())
+        {
+            HTTP::redirect('/');
+        }
 
         if (HTTP_Request::POST == $this->request->method())
         {
             // Attempt to login user
             $remember = array_key_exists('remember', $this->request->post()) ? (bool)$this->request->post('remember') : FALSE;
-            $user = Auth::instance()->login($this->request->post('username'), $this->request->post('password'), $remember);
+
+            $user = Auth::instance()->login($this->request->post('email'), $this->request->post('password'), $remember);
 
             // If successful, redirect user
             if ($user)
             {
-                Session::instance()->set('auth', $this->request->post('username'));
-                Request::current()->redirect('/');
+                Session::instance()->set('auth', $this->request->post('email'));
+                HTTP::redirect('/');
             }
             else
             {
                 $message = 'Неверный логин или пароль';
             }
         }
+        $this->template->content = View::factory('/pages/user/login')->bind('message', $message);
     }
 
     public function action_logout()
     {
         // Log user out
-        $session = Session::instance();
-        $session->delete('auth');
 
-        Auth::instance()->logout(false,true);
-        Session::instance()->destroy();
+        Auth::instance()->logout();
      // Redirect to login page
         HTTP::redirect('/');
     }
@@ -226,6 +240,37 @@ class Controller_User extends Controller_Common {
 
         // Делаем редирект на страницу авторизации
         $this->redirect("/users/login");
+    }
+
+    public function upload($name) {
+        $files = [];
+        $config = [];
+
+        include_once('Upload.php');
+
+        $this->upload = new Upload();
+
+        $config['upload_path'] = './media/users/'.$name;
+        $config['allowed_types'] = 'gif|jpg|jpeg|png';
+        $config['encrypt_name'] = true;
+
+        if(!is_dir($config['upload_path'])) mkdir($config['upload_path'], 0777, true);
+
+        $this->upload->initialize($config);
+
+
+        foreach ($_FILES as $key => $value) {
+            if (!$this->upload->do_upload($key)) {
+               // echo ($this->upload->display_errors());
+
+            } else {
+                $result = ['upload_data' => $this->upload->data()];
+                $files[$key] .= $result['upload_data']['file_name'];
+            }
+        }
+
+
+        return $files;
     }
 
 }
