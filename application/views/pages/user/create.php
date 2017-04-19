@@ -8,17 +8,17 @@
                 <div class="block">
                     <div class="row">
                         <div class="col-xs-5"></div>
-                        <div class="col-xs-7">
+                        <div class="col-xs-7 radios-as-buttons">
                             <div class="input">
                                 <input id="applicant"  type="radio" name="select" required value="1">
                                 <label for="applicant">Соискатель</label>
                             </div>
-                            <div class="input">
+                            <div class="input ">
                                 <input id="employer"  type="radio" name="select" value="2">
                                 <label for="employer">Работодатель</label>
                             </div>
-                            <div class="">
-                                <P><span>*</span> Обязательные поля</P>
+                            <div style="float: right;">
+                                <p><span>*</span> Обязательные поля</p>
                             </div>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                                 <p>Пароль <span>*</span></p>
                             </div>
                             <div class="col-xs-7">
-                                <input required class="input_width" type="password" name="password" minlength="8">
+                                <input id="password1" required class="input_width" type="password" name="password" minlength="8">
                             </div>
                         </div>
                     </div>
@@ -73,8 +73,8 @@
                             <div class="col-xs-5">
                                 <p>Подтверждение пароля <span>*</span></p>
                             </div>
-                            <div class="col-xs-7">
-                                <input required class="input_width" type="password" name="password_" minlength="8">
+                            <div class="col-xs-7"><span id="password22"></span>
+                                <input id="password2" required class="input_width" type="password" name="password_" minlength="8">
                             </div>
                         </div>
                     </div>
@@ -87,13 +87,16 @@
                                 </div>
                                 <div class="col-xs-7">
                                     <input required class="input_width" type="text" >
+                                    <div class="radios-as-buttons" style="margin-top: 15px;">
                                     <div>
-                                        <input type="radio" name="sfera" value=""> Прямой работодатель
+                                        <input type="radio" id="employer2" name="sfera" value="1">
+                                        <label for="employer2">Прямой работодатель</label>
                                     </div>
-                                    <div>
-                                        <input type="radio" name="sfera" value=""> Кадровое агентство
+                                    <div style="margin-left: 10px;">
+                                        <input type="radio" id="agency" name="sfera" value="2">
+                                        <label for="agency">Кадровое агентство</label>
                                     </div>
-
+                                    </div>
                                 </div>
                             </div>
                         </div>

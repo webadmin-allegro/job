@@ -6,7 +6,7 @@ class Controller_Admin_User extends Controller {
 
     public function action_login()
     {
-		if (Auth::instance()->logged_in('admin'))
+		if (Auth::instance()->logged_in())
         {
             HTTP::redirect('/admin_site/main/index');
 

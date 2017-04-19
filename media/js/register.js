@@ -23,3 +23,19 @@ $('[data-url="file2"]').die('change').live('change', function (e) {
     };
     $(data.rel).html(img);
 });
+
+$(document).ready(function(){
+    document.getElementById("password1").onchange = validatePassword;
+    document.getElementById("password2").onchange = validatePassword;
+});
+function validatePassword() {
+    var pass2 = document.getElementById("password2").value;
+    var pass1 = document.getElementById("password1").value;
+
+    if (pass1 != pass2){
+        $("#password22").html("<span style='color:red'>Пароли не совпадают</span>");
+    }else{
+        $("#password22").html("");
+    }
+
+}
