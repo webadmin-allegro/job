@@ -3,17 +3,17 @@
 return array
 (
 	// Возможные значения: small, panel, window
-	'type' 			=> 'small',
+	'type' 			=> 'panel',
 	
 	// на какой адрес придёт POST-запрос от uLogin
-	'redirect_uri' 	=>	URL::site(NULL, TRUE).'ulogin/create',
+	'redirect_uri' 	=>	NULL,
 	
 	// Сервисы, выводимые сразу
 	'providers'		=> array(
-		'vkontakte',
-		'facebook',
+//		'vkontakte',
+//		'facebook',
 //		'twitter',
-		'google',
+//		'google',
 	),
 	
 	// Выводимые при наведении
@@ -27,13 +27,13 @@ return array
 	// Эти поля используются для поля username в таблице users
 	'username' 		=> array (
 //		 'email',
-		 'first_name',
-		 'last_name',
+//		 'first_name',
+//		 'last_name',
 	),
 	
 	// Обязательные поля
 	'fields' 		=> array(
-		 'email',
+//		 'email',
 	),
 	
 	// Необязательные поля

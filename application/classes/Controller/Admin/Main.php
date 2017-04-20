@@ -306,6 +306,47 @@ class Controller_Admin_Main extends Controller_Common {
 
 
     }
+
+
+    public function action_country()
+    {
+        //$id = $this->request->param('id');
+        $content = View::factory('/admin_site/country');
+        
+        if ($_POST){
+
+            if ($_POST['id'] && $_POST['action'] == 'del') {
+                
+                $id = (int)$_POST['id'];
+                DB::delete('country')->where('id', '=', $id)->execute();
+                echo 1;
+                exit;
+                
+            }else if ($_POST['id'] && $_POST['action'] == 'edit'){
+
+                $id = (int)$_POST['id'];
+                DB::update('country') ->set(['name'=>$_POST['name']])->where('id', '=', $id)->execute();
+                echo 2;
+                exit;
+                
+            }else if ($_POST['action'] == 'add'){
+
+                DB::insert('country', array('name')) ->values(array($_POST['name']))->execute();
+
+                HTTP::redirect('/admin_site/main/country/');
+                
+            }
+            
+                        
+            
+        }
+        
+        $country = Model::factory('User')->country();
+        $content->country = $country;
+        
+        $this->template->content = $content;
+
+    }
     
 
     public function action_categ()

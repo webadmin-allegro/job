@@ -65,6 +65,7 @@ class Kohana_Request_Client_Curl extends Request_Client_External {
 		$options[CURLOPT_HEADERFUNCTION]        = array($response_header, 'parse_header_string');
 		$this->_options[CURLOPT_RETURNTRANSFER] = TRUE;
 		$this->_options[CURLOPT_HEADER]         = FALSE;
+		$this->_options[CURLOPT_SSL_VERIFYPEER] = FALSE;
 
 		// Apply any additional options set to
 		$options += $this->_options;

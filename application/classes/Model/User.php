@@ -18,4 +18,18 @@ class Model_User extends Model_Auth_User
 
         return !empty($roles) ? true : false;
     }
+
+
+    public function country()
+    {
+
+        $db = DB::select('id','name');
+        $db->from('country');
+        $res = $db->execute()->as_array();
+
+        return $res;
+    }
+
+
+
 }

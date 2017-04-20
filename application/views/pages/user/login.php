@@ -24,6 +24,13 @@
                         </div>
 
                         <div class="my-row">
+                            <div class="text-zona" style="margin-left: 10px">
+                            <p>Или войдите - </p>
+                            <?php echo Ulogin::factory(array('type'=>'panel'))->render('panel') ?>
+                            </div>
+                        </div>
+
+                        <div class="my-row">
                             <div class="button-zona">
                                 <button class="main-button" type="submit" name="button">Войти</button>
                                 <button onclick="window.location.href='/user/create'" class="main-button" type="button" name="button">Регистрация</button>

@@ -90,6 +90,9 @@
                     <li><a href="/admin_site/main/users">Пользователи</a>
                     
                     </li>
+                    <li><a href="/admin_site/main/country">Страны</a>
+
+                    </li>
                     <li><a href="#">Статические страницы</a>
 
                     </li>

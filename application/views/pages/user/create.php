@@ -141,16 +141,10 @@
                                     <p>Страна <span>*</span></p>
                                 </div>
                                 <div class="col-xs-7">
-                                    <select required class="input_width">
-                                        <option>Австрия</option>
-                                        <option>Болгария</option>
-                                        <option>Германия</option>
-                                        <option>Испания</option>
-                                        <option>Лихтенштейн</option>
-                                        <option>Монако</option>
-                                        <option>Россия</option>
-                                        <option>Словения</option>
-                                        <option>Швейцария</option>
+                                    <select required class="input_width" name="country">
+                                        <?php if (is_array($country)) foreach ($country as $v): ?>
+                                        <option id="<?=$v['id'];?>"><?=$v['name'];?></option>
+                                        <?php endforeach; ?>
                                     </select>
                                 </div>
                             </div>

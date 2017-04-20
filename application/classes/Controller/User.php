@@ -65,16 +65,23 @@ class Controller_User extends Controller_Common {
             } catch (ORM_Validation_Exception $e)
             {
                 // Set failure message
-                $message = 'Возникли ошибки, пожалуйста, исправьте их.';
+                //$message = 'Возникли ошибки, пожалуйста, исправьте их.';
 
                 // Set errors using custom messages
                 $errors = $e->errors('models');
             }
         }
 
-        $this->template->content = View::factory('/pages/user/create')
-            ->bind('errors', $errors)
-            ->bind('message', $message);
+        $content = View::factory('/pages/user/create');
+
+        $country = Model::factory('User')->country();
+        
+        $content->country = $country;
+        $content->errors = $errors;
+        
+        
+        $this->template->content = $content;
+          
     }
 
     public function action_login()
