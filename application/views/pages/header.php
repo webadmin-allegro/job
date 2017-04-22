@@ -12,7 +12,7 @@
                 <div class="dropdown enter">
                     <a href="/visa-country.php" style="padding-left: 10px; padding-right: 10px">Визы и страны</a>
                     <a href="/poisk-rezume.php" style="padding-left: 10px; padding-right: 10px;">Найти резюме</a>
-                    <a href="/dobavit-rezume.php" style="padding-left: 10px; padding-right: 10px;">Добавить резюме</a>
+                    <a href="/resume/add" style="padding-left: 10px; padding-right: 10px;">Добавить резюме</a>
                     <a href="/dobavit-vakansiyu.php" style="padding-left: 10px; padding-right: 10px;">Добавить вакансию</a>
                 <?php if ($user->username): ?>
                     <a href="#" data-toggle="dropdown" class="dropdown-toggle">

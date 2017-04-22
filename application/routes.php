@@ -20,6 +20,12 @@ if (!Route::cache()) {
         'action'     => 'index',
     ));
 
+    Route::set('resume', 'resume(<controller>(/<action>(/<id>)))')
+        ->defaults(array(
+            'controller' => 'resume',
+            'action'     => 'index',
+        ));
+
     Route::set('do_search', 'search(/<artname>)', array('artname' => '.*'))
     ->defaults(array(
     'controller'  => 'search',

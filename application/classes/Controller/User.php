@@ -38,7 +38,6 @@ class Controller_User extends Controller_Common {
                     'username' => $_POST['username'],
                     'password' => $_POST['password'],
                     'email' => $_POST['email'],
-                    'profession' => $_POST['profession'],
                     'phone' => $_POST['phone'],
                     'role_id'=>1,
                     'img' => $file ? $file : null,
@@ -48,7 +47,7 @@ class Controller_User extends Controller_Common {
 
                 // Create the user using form values
                 $user = ORM::factory('User')
-                    ->create_user($data, array('username','password','email','profession','phone','role_id','img'));
+                    ->create_user($data, array('username','password','email','phone','role_id','img'));
                 // Grant user login role
                 $user->add('roles', ORM::factory('Role', array('name' => 'login')));
 
@@ -74,7 +73,7 @@ class Controller_User extends Controller_Common {
 
         $content = View::factory('/pages/user/create');
 
-        $country = Model::factory('User')->country();
+        $country = Model::factory('User')->country('user_page');
         
         $content->country = $country;
         $content->errors = $errors;
@@ -260,6 +259,7 @@ class Controller_User extends Controller_Common {
         $config['upload_path'] = './media/users/'.$name;
         $config['allowed_types'] = 'gif|jpg|jpeg|png';
         $config['encrypt_name'] = true;
+        $config['max_size'] = 1500;
 
         if(!is_dir($config['upload_path'])) mkdir($config['upload_path'], 0777, true);
 

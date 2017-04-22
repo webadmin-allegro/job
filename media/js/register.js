@@ -25,8 +25,12 @@ $('[data-url="file2"]').die('change').live('change', function (e) {
 });
 
 $(document).ready(function(){
-    document.getElementById("password1").onchange = validatePassword;
-    document.getElementById("password2").onchange = validatePassword;
+    var element = document.getElementById('password1');
+    if (typeof element !== "undefined" && document.getElementById('password1') != null) {
+        document.getElementById("password1").onchange = validatePassword;
+        document.getElementById("password2").onchange = validatePassword;
+    }
+
 });
 function validatePassword() {
     var pass2 = document.getElementById("password2").value;

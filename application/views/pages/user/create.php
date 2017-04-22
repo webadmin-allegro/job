@@ -10,11 +10,11 @@
                         <div class="col-xs-5"></div>
                         <div class="col-xs-7 radios-as-buttons">
                             <div class="input">
-                                <input id="applicant"  type="radio" name="select" required value="1">
+                                <input id="applicant"  type="radio" name="emp_applic" required value="1">
                                 <label for="applicant">Соискатель</label>
                             </div>
                             <div class="input ">
-                                <input id="employer"  type="radio" name="select" value="2">
+                                <input id="employer"  type="radio" name="emp_applic" value="2">
                                 <label for="employer">Работодатель</label>
                             </div>
                             <div style="float: right;">
@@ -37,10 +37,10 @@
                     <div class="row">
                         <div class="phone_number">
                             <div class="col-xs-5">
-                                <p>Телефон</p>
+                                <p>Телефон<span>*</span></p>
                             </div>
                             <div class="col-xs-7">
-                                <input class="input_width" type="tel" name="phone">
+                                <input class="input_width" type="tel" name="phone" required>
                             </div>
                         </div>
                     </div>
@@ -80,85 +80,7 @@
                     </div>
                 </div>
                 <div class="block">
-                        <div class="row">
-                            <div class="reg_name_company">
-                                <div class="col-xs-5">
-                                    <p>Название компании</p>
-                                </div>
-                                <div class="col-xs-7">
-                                    <input required class="input_width" type="text" >
-                                    <div class="radios-as-buttons" style="margin-top: 15px;">
-                                    <div>
-                                        <input type="radio" id="employer2" name="sfera" value="1">
-                                        <label for="employer2">Прямой работодатель</label>
-                                    </div>
-                                    <div style="margin-left: 10px;">
-                                        <input type="radio" id="agency" name="sfera" value="2">
-                                        <label for="agency">Кадровое агентство</label>
-                                    </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="reg_branch">
-                                <div class="col-xs-5">
-                                    <p>Отрасль <span>*</span></p>
-                                </div>
-                                <div class="col-xs-7">
-                                    <select required class="input_width" name="profession">
-                                        <option>Сельское хозяйство</option>
-                                        <option>Строительство, архитектура</option>
-                                        <option>Сфера обслуживания</option>
-                                        <option>Транспорт, водители</option>
-                                        <option>Рабочие специальности, производство</option>
-                                        <option>Другие сферы деятельности</option>
-                                        <option>Гостинично ресторанный бизнес</option>
-                                        <option>Охрана безопасность</option>
-                                        <option>Красота, бизнес, спорт</option>
-                                        <option>Издательство, полиграфия</option>
-                                        <option>Работа для студентов</option>
-                                        <option>Работа на дому</option>
-                                        <option>IT</option>
-                                        <option>Администрация, руководство среднего звена</option>
-                                        <option>Бухгалтерия, аудит</option>
-                                        <option>Дизайн, творчество</option>
-                                        <option>Культура, музыка, шоу-бизнес</option>
-                                        <option>Логистика, склад, ВЭД</option>
-                                        <option>Маркетинг, реклама, PR</option>
-                                        <option>Медицина, фармацевтика</option>
-                                        <option>Образование, наука</option>
-                                        <option>Секретариат, делопроизводство</option>
-                                        <option>Топ-менеджмент, руководство высшего звена</option>
-                                        <option>Телекоммуникации и связь</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="reg_country">
-                                <div class="col-xs-5">
-                                    <p>Страна <span>*</span></p>
-                                </div>
-                                <div class="col-xs-7">
-                                    <select required class="input_width" name="country">
-                                        <?php if (is_array($country)) foreach ($country as $v): ?>
-                                        <option id="<?=$v['id'];?>"><?=$v['name'];?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="reg_site">
-                                <div class="col-xs-5">
-                                    <p>Сайт</p>
-                                </div>
-                                <div class="col-xs-7">
-                                    <input class="input_width" type="text" name="site">
-                                </div>
-                            </div>
-                        </div>
+
                     <div class="row">
                         <div class="reg_site">
                             <div class="col-xs-5">
