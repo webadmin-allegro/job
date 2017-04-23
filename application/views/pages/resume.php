@@ -6,6 +6,7 @@
 
 <div class="add_vac">
     <div class="container">
+        <h3 style="color: red;"><?php if (!empty ($errors) && is_array($errors)) foreach( $errors as $v) echo $v.'<br>';?></h3>
         <div class="main_form new">
             <form id="form_for_all" enctype="multipart/form-data" method="post">
                 <div class="block">
@@ -28,7 +29,7 @@
                             </div>
                             <div class="col-xs-7">
                                 <div class="town">
-                                    <input class="border_illusion" required="" type="text" name="username" value="<?php echo $user->username?>">
+                                    <input class="border_illusion" required type="text" name="username" value="<?php echo $user->username;?>">
                                 </div>
                             </div>
                         </div>
@@ -40,7 +41,7 @@
                             </div>
                             <div class="col-xs-7">
                                 <div class="town">
-                                    <input class="border_illusion" required type="text" name="location">
+                                    <input class="border_illusion" required type="text" name="location" value="<?php echo $user->residence;?>">
                                 </div>
                             </div>
                         </div>
@@ -106,8 +107,8 @@
                             <div class="col-xs-7">
                                 <div class="select_category select_vac_country">
                                     <ul>
-                                        <?php if (!empty($country)) foreach ($country as $v):?>
-                                            <li><input type="radio" required value="<?php echo $v['id']?>" name="county"><?php echo $v['name']?></li>
+                                        <?php if (!empty($country)) foreach ($country as $k=>$v):?>
+                                            <li><input type="radio" <?php if ($k==0):?>required<?php endif; ?> value="<?php echo $v['id']?>" name="country"><?php echo $v['name']?></li>
                                         <?php endforeach; ?>
                                     </ul>
                                 </div>
@@ -239,6 +240,7 @@
 
                     </div>
                 </div>
+                  <input type="hidden" name='id' value="<?php echo $user->id;?>">
                     <?php echo Form::hidden('csrf', Security::token());?>
 
                 <div class="block">

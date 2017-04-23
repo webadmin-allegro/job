@@ -10,6 +10,7 @@ return array(
     'username already exists'	=>	'такое имя пользователя еже есть',
     'email already exists'	=>	'Извините такой email еже есть',
     'models/user.email.unique'	=>	'Извините такой email еже есть',
+    'contact.csrf.Security::check' => 'ой ой ой',
 
     // Переводы для полей форм
     'name' => 'Ваше имя',

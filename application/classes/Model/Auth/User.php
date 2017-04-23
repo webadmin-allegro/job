@@ -9,6 +9,23 @@
  */
 class Model_Auth_User extends ORM {
 
+
+    protected $_table_columns = array(
+        'id'          => NULL,
+        'email'       => NULL,
+        'username'    => NULL,
+        'password'    => NULL,
+        'logins'      => NULL,
+        'last_login'  => NULL,
+        'phone'       => NULL,
+        'profession'  => NULL,
+        'residence'   => NULL,
+        'age'         => NULL,
+        'img'         => NULL,
+        'emp_applic'  => NULL,
+        'role_id'     => NULL,
+        'reset_token' => NULL);
+
 	/**
 	 * A user has many tokens and roles
 	 *

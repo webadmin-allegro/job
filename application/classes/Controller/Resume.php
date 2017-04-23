@@ -28,6 +28,7 @@ class Controller_Resume extends Controller_Common {
     public function action_add()
     {
         $content = View::factory('/pages/resume');
+        $errors = false;
 
         if ($this->request->post() && count($this->request->post()) > 0)
         {
@@ -37,18 +38,56 @@ class Controller_Resume extends Controller_Common {
 
             $valid->rule('username', 'not_empty', array(':value'))
                    ->rule('location', 'not_empty')
+                   ->rule('position', 'not_empty')
+                   ->rule('education', 'not_empty')
+                   ->rule('country', 'not_empty')
+                   ->rule('employment', 'not_empty')
+                   ->rule('wage', 'not_empty')
                    ->rule('age', 'not_empty');
             $valid->rules('csrf', array(
                     array('not_empty'),
                     array('Security::check'),
             ));
 
+           // $val = Helper_MyUrl::ValidArr([$post['education']]);
+
             if ($valid->check()) {
-                var_dump($post);
-                exit();
-            }else
-            {
-                var_dump( $valid->errors('contact'));
+
+                $userM = ORM::factory('User',(int)$post['id']);
+
+                if ($userM){
+
+                    $file = $this->upload($userM->email);
+
+                    $userM->username = $post['username'];
+                    $userM->age = $post['age'];
+                    $userM->residence = $post['location'];
+                    if ($file)   $userM->img = $file;
+                    $userM->save();
+                }
+
+
+                $data = [
+                    'user_id'   => (int)$userM->id,
+                    'position'  => $post['position'],
+                    'education' => serialize($post['education']),
+                    'profession_id'  => implode(",",$post['profession_id']),
+                    'employment_id'  => (int)$post['employment'],
+                    'wage'      => (int)$post['wage'],
+                    'curr_id'   => (int)$post['curr'],
+                    'wage_desc' => $post['wage_desc']?:null,
+                    'country_id'=> (int)$post['country'],
+                    'active'    => 1,
+                    'experience'=> serialize($post['experience']),
+                    'desc'      => $post['desc']?:null,
+                ];
+
+                $key = array_keys($data);
+
+                DB::insert('resume', $key )->values($data)->execute();
+
+            } else {
+                $errors = $valid->errors('contact');
             }
         }
 
@@ -61,6 +100,7 @@ class Controller_Resume extends Controller_Common {
         $content->category = $category;
         $content->employment = $employment;
         $content->curr = $curr;
+        $content->errors = $errors;
 
         $this->template->content = $content;
     }

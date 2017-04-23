@@ -25,7 +25,7 @@ abstract class Controller_Common extends Controller_Template {
         'title' => !isset($this->title)?$this->main_config->get('title'):$this->title,
 	    'keywords' => !isset($this->keywords)?$this->main_config->get('keywords'):$this->keywords,
         'description' => !isset($this->description)?$this->main_config->get('description'):$this->description,
-        'user'  => $user ? $user : '',
+        'user'  => $user ? $user : false,
          )); 
 		 
     }
