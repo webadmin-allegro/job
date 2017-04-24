@@ -11,47 +11,43 @@ $(document).ready(function() {
         $("#imgUpload").click();
     });
 
-    $('#show_preview').click(function() {
-        $('#preview').show();
-    });
-
     $('#text').change(function() {
-      var str = $('#text').val();
-      $('#text_written').text(str);
+        var str = $('#text').val();
+        $('#text_written').text(str);
     }).change;
 
     $('#email').change(function() {
-      var em = $(this).val();
-      $('#writte_email').text(em);
+        var em = $(this).val();
+        $('#writte_email').text(em);
     }).change;
 
     $('#main_name').change(function() {
-      var main_name = $(this).val();
-      $('#writte_main-name').text(main_name);
+        var main_name = $(this).val();
+        $('#writte_main-name').text(main_name);
     }).change;
 
     $('#tel').change(function() {
-      var tel = $(this).val();
-      $('#writte_tel').text(tel);
+        var tel = $(this).val();
+        $('#writte_tel').text(tel);
     }).change;
 
     $('#pip').change(function() {
-      var pip = $(this).val();
-      $('#writte_pip').text(pip);
+        var pip = $(this).val();
+        $('#writte_pip').text(pip);
     }).change;
 
     $('#new_input').click(function() {
-      $('#will_click-js').click();
+        $('#will_click-js').click();
     });
 
     $('#go_to-letter1').click(function() {
-      $('#hide-show-vac').show();
-      $('#hide-show-letter').hide();
+        $('#hide-show-vac').show();
+        $('#hide-show-letter').hide();
     });
 
     $('#go_to-letter5').click(function() {
-      $('#hide-show-vac').hide();
-      $('#hide-show-letter').show();
+        $('#hide-show-vac').hide();
+        $('#hide-show-letter').show();
     });
 
     $("#select_region").click(function() {
@@ -62,11 +58,4 @@ $(document).ready(function() {
         $(".toggled_text").toggle(800);
         $(".toggle-for-text").toggleClass("closed");
     });
-
-    $('#button_to-add').click(function() {
-      var add_lang = $('#language').clone();
-      $(add_lang).appendTo('.all_for_language');
-
-    });
-
-  });
+});

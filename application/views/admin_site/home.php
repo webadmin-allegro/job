@@ -55,7 +55,7 @@
             <li><a href="#">Привет, <?php echo $user->username;?> </a></li>
             <li><a href="/admin_site/main/str">Личный кабинет</a></li>
             <!--<li><a href="#" id="message-button"> 1 Сообщения</a></li>-->
-            <?php echo html::anchor(Route::get('admin_site')->uri(array('controller'=>'user','action'=>'logout')), '<li>Выход</li>' , array('class' => 'exit') )?>
+            <li><a href="/admin_site/user/logout">Выход</a></li>
             <!--<li><a href="" style="font-weight:bold; color:#FF0000">Exit</a></li> ,  <img src=/public_admin/css/icons/exit.png>-->
         </ul> <!--  End of Tab Controls --> <!--  End of Tab Controls -->
     </div><!-- Notice bar at the right side  -->

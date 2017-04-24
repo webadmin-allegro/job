@@ -77,14 +77,15 @@ class Controller_Resume extends Controller_Common {
                     'curr_id'   => (int)$post['curr'],
                     'wage_desc' => $post['wage_desc']?:null,
                     'country_id'=> (int)$post['country'],
-                    'active'    => 1,
+                    'active'    => 0,
                     'experience'=> serialize($post['experience']),
                     'desc'      => $post['desc']?:null,
+                    'created'   => date('U'),
                 ];
 
-                $key = array_keys($data);
+                DB::insert('resume', array_keys($data) )->values($data)->execute();
 
-                DB::insert('resume', $key )->values($data)->execute();
+                HTTP::redirect('/user/info');
 
             } else {
                 $errors = $valid->errors('contact');
@@ -103,6 +104,34 @@ class Controller_Resume extends Controller_Common {
         $content->errors = $errors;
 
         $this->template->content = $content;
+    }
+
+    public function action_hidden_resume()
+    {
+        $post = $this->request->post();
+        $valid = new Validation($post);
+
+        $valid->rules('hash', array(
+            array('not_empty'),
+            array('Security::check'),
+        ));
+
+        if ($post['id'] && $valid->check()){
+
+            if ($post['action'] == 'del'){
+                DB::delete('resume')->where('id', '=',$post['id'])->execute();
+                echo 1;
+                exit;
+            }
+            if ($post['action'] == 'hidden' && $post['rel']){
+                if ($post['rel'] == 3) $rel = 1;
+                if ($post['rel'] == 1) $rel = 3;
+                DB::update('resume')->set(array('active' => $rel))->where('id', '=',$post['id'])->execute();
+                echo 1;
+                exit;
+            }
+
+        }
     }
 
     public function upload($name) {

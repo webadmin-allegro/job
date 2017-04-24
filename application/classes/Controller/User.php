@@ -7,16 +7,22 @@ class Controller_User extends Controller_Common {
     public function action_index()
     {
 
+        $content = View::factory('/pages/user/info');
+
         // Load the user information
         $user = Auth::instance()->get_user();
-
-        $this->template->content = View::factory('/pages/user/info')->bind('user', $user);
-
         // if a user is not logged in, redirect to login page
         if (!$user)
         {
             HTTP::redirect('/user/login');
         }
+
+        $resume = Model::factory('Resume')->get_user_resume($user->id);
+
+        $content->resume = $resume;
+        $content->user = $user;
+        $this->template->content = $content;
+
     }
 
     public function action_create()

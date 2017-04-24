@@ -13,6 +13,7 @@
 
     <!-- Latest compiled JavaScript -->
     <script src="/media/js/bootstrap.js"></script>
+    <script src="/media/js/js.js"></script>
     <link rel="stylesheet" href="/media/css/style.css">
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300" rel="stylesheet">
 </head>
