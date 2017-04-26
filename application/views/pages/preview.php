@@ -6,27 +6,27 @@
 <div class="container">
     <div class="row" style="margin-left: 0; margin-right: 0;">
         <div class="headervakanse">
-            <a href="javascript:history.back();">← Вернуться к списку</a><p style="float: right;"><span>Резюме обновлено 2 дня назад</span><a href="" download ><img alt="download" title="Скачать" src="/img/downl.png">Скачать</a>
-                <a style="cursor: pointer;" onclick="javascript: print();"><img alt="print" title="Распечатать" src="/img/print.png">Распечатать</a>
+            <a href="javascript:history.back();">← Вернуться к списку</a><p style="float: right;"><span>Резюме обновлено 2 дня назад</span><a href="" download ><img alt="download" title="Скачать" src="/media/img/downl.png">Скачать</a>
+                <a style="cursor: pointer;" onclick="javascript: print();"><img alt="print" title="Распечатать" src="/media/img/print.png">Распечатать</a>
 
             </p>
         </div>
         <div class="rezumeblock">
             <div class="avatarvacanse">
-                <?php if ($list[0]['img']):?>
-                    <img src="/media/users/<?php echo $list[0]['email']?>/<?php echo $list[0]['img']?>" alt="Аватар без фото" title="name resume">
+                <?php if  ($user->img):?>
+                    <img src="/media/users/<?php echo $user->email?>/<?php echo $user->img?>" alt="Аватар без фото" title="name resume">
                 <?php else:?>
                     <img src="/media/img/nophoto.png" alt="Аватар без фото" title="name resume">
                 <?php endif;?>
             </div>
-            <h1><?php echo $list[0]['username']?></h1>
-            <h2><?php echo $list[0]['position']?></h2>
-            <p>Город: <?php echo $list[0]['residence']?></p>
-            <p>Возраст: <?php echo Helper_MyUrl::Calculate_Age($list[0]['age']);?> лет</p>
-            <p>Желаемая зарплата: <?php echo $list[0]['wage']?> <?php echo $list[0]['curr_name']?></p>
+            <h1><?php echo $list['username']?></h1>
+            <h2><?php echo $list['position']?></h2>
+            <p>Город: <?php echo $list['residence']?></p>
+            <p>Возраст: <?php echo Helper_MyUrl::Calculate_Age($list['age']);?> лет</p>
+            <p>Желаемая зарплата: <?php echo $list['wage']?> </p>
             <p><a href="#">Показать контакты</a></p>
             <h3>Опыт работы:</h3>
-            <?php $o = unserialize($list[0]['experience']);?>
+            <?php $o = $list['experience'];?>
             <p><?php echo $o['name']; ?>: <?php echo $o['on']; ?>-<?php echo $o['off']; ?></p>
             <p><?php echo $o['proff']; ?></p>
             <h3>Ключевая информация:</h3>

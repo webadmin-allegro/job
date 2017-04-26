@@ -30,4 +30,16 @@ class Helper_MyUrl
          }
 
      }
+
+    public static function  Calculate_Age($birthday) {
+
+        $birthday_timestamp = strtotime($birthday);
+        $age = date('Y') - date('Y', $birthday_timestamp);
+
+         if (date('md', $birthday_timestamp) > date('md')) {
+                $age--;
+           }
+              return $age;
+       }
+
  }

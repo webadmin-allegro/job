@@ -62,10 +62,10 @@
                                         <li><a href="/resume/edit/<?php echo $v['id']?>">Редактировать</a></li>
                                         <?php if($v['active'] == 1 || $v['active'] == 3):?>
                                             <li>
-                                                <a data-action="hidden" data-rel="<?php echo $v['active']?>" data-id="<?php echo $v['id']?>" data-hash="<?php echo Security::token();?>" class="hidden_resume" href="#">Скрыть/Показать на сайте</a>
+                                                <a data-action="hidden" data-rel="<?php echo $v['active']?>" data-id="<?php echo $v['id']?>" class="hidden_resume" href="#">Скрыть/Показать на сайте</a>
                                             </li>
                                         <?php endif;?>
-                                        <li><a data-action="del" data-id="<?php echo $v['id']?>" data-hash="<?php echo Security::token();?>" class="hidden_resume" href="#">Удалить</a></li>
+                                        <li><a data-action="del" data-id="<?php echo $v['id']?>" class="hidden_resume" href="#">Удалить</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -339,9 +339,8 @@
         if (confirm(text)) {
 
             var id = $(this).data("id");
-            var hash = $(this).data("hash");
 
-            $.post('/resume/hidden_resume/',{id:id,hash:hash,action:action,rel:rel}, function (data) {
+            $.post('/resume/hidden_resume/',{id:id,action:action,rel:rel}, function (data) {
 
                 if (data == 1){
                     window.location.reload();

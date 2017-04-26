@@ -15,19 +15,64 @@ class Controller_Resume extends Controller_Common {
 
         }
     }
-
+    
 
         public function action_index()
     {
+
+            $content = View::factory('/pages/list_resume');
+
+            $list = Model::factory('Resume')->get_all_resume();
+
+            $content->list = $list[0]['id']>0 ? $list : false;
+
+            $this->template->content = $content;
+    }
+
+
+    public function action_cv()
+    {
+        $id = $this->request->param('id');
+
         $content = View::factory('/pages/resume');
 
+        $list = Model::factory('Resume')->get_resume_id($id);
+
+        if ($list && $list[0]['id']>0){
+            $content->list =  $list;
+        }else{
+            HTTP::redirect('/resume');
+        }
+
+
         $this->template->content = $content;
+    }
+
+    public function action_preview()
+    {
+        if ($_POST){
+            Session::instance()->set("sess_", $_POST);
+            echo 1;
+            exit;
+        }
+
+        $list = Session::instance()->get("sess_");
+        
+        if (!$list) {
+            HTTP::redirect('/resume');
+        }
+        
+        $content = View::factory('/pages/preview');
+        $content->list =  $list;
+        Session::instance()->delete("sess_");
+        $this->template->content = $content;
+
     }
 
 
     public function action_add()
     {
-        $content = View::factory('/pages/resume');
+        $content = View::factory('/pages/add_resume');
         $errors = false;
 
         if ($this->request->post() && count($this->request->post()) > 0)
@@ -85,7 +130,7 @@ class Controller_Resume extends Controller_Common {
 
                 DB::insert('resume', array_keys($data) )->values($data)->execute();
 
-                HTTP::redirect('/user/info');
+                HTTP::redirect('/user');
 
             } else {
                 $errors = $valid->errors('contact');
@@ -109,24 +154,19 @@ class Controller_Resume extends Controller_Common {
     public function action_hidden_resume()
     {
         $post = $this->request->post();
-        $valid = new Validation($post);
+        $user = Auth::instance()->get_user();
 
-        $valid->rules('hash', array(
-            array('not_empty'),
-            array('Security::check'),
-        ));
-
-        if ($post['id'] && $valid->check()){
+        if ($post['id'] && $user){
 
             if ($post['action'] == 'del'){
-                DB::delete('resume')->where('id', '=',$post['id'])->execute();
+                DB::delete('resume')->where('id', '=',(int)$post['id'])->and_where('user_id', '=', $user->id)->execute();
                 echo 1;
                 exit;
             }
             if ($post['action'] == 'hidden' && $post['rel']){
                 if ($post['rel'] == 3) $rel = 1;
                 if ($post['rel'] == 1) $rel = 3;
-                DB::update('resume')->set(array('active' => $rel))->where('id', '=',$post['id'])->execute();
+                DB::update('resume')->set(array('active' => $rel))->where('id', '=',(int)$post['id'])->and_where('user_id', '=', $user->id)->execute();
                 echo 1;
                 exit;
             }
