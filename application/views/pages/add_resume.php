@@ -292,10 +292,10 @@
         );
     });
     function education_add(class_name){
-        var c = '.' + class_name;
-        var block =  $(c+":first").clone();
+        var c = '.' + class_name + ":last";
+        var block =  $(c).clone();
         $( block ).find('input[type=text],input[type=number]').attr('value','');
-        $(c+":last").after(block);
+        $(c).after(block);
     }
     $(function(){
         var requiredCheckboxes = $('.options_ :checkbox[required]');
