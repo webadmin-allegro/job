@@ -21,18 +21,25 @@
             </div>
             <h1><?php echo $list[0]['username']?></h1>
             <h2><?php echo $list[0]['position']?></h2>
-            <p>Город: <?php echo $list[0]['residence']?></p>
+            <p>Место жительства: <?php echo $list[0]['residence']?></p>
             <p>Возраст: <?php echo Helper_MyUrl::Calculate_Age($list[0]['age']);?> лет</p>
-            <p>Желаемая зарплата: <?php echo $list[0]['wage']?> <?php echo $list[0]['curr_name']?></p>
-            <p><a href="#">Показать контакты</a></p>
-            <h3>Опыт работы:</h3>
-            <?php $o = unserialize($list[0]['experience']);?>
-            <p><?php echo $o['name']; ?>: <?php echo $o['on']; ?>-<?php echo $o['off']; ?></p>
-            <p><?php echo $o['proff']; ?></p>
-            <h3>Ключевая информация:</h3>
+            <p>Желаемая зарплата: <?php echo $list[0]['wage']?> <?php echo $curr[$list[0]['curr_id']];?></p>
+            <p><?php echo $list[0]['wage_desc']?></p>
             <h3>Образование:</h3>
-            <h3>Владения языками:</h3>
-            <h3>Дополнительная информация:</h3>
+            <?php $ed = unserialize($list[0]['education']);?>
+            <?php if (is_array($ed)) for ($i=0;$i<count($ed['name']);$i++):?>
+            <p><?php echo $ed['type'][$i]; ?></p>
+            <p><?php echo $ed['name'][$i]; ?>: <?php echo $ed['on'][$i]; ?>-<?php echo $ed['off'][$i]; ?></p>
+            <p><?php echo $ed['proff'][$i]; ?></p>
+            <?php endfor;?>
+            <h3>Опыт работы:</h3>
+            <?php $exp = unserialize($list[0]['experience']);?>
+            <?php if (is_array($exp)) for ($i=0;$i<count($exp['name']);$i++):?>
+            <p><?php echo $exp['name'][$i]; ?>: <?php echo $exp['on'][$i]; ?>-<?php echo $exp['off'][$i]; ?></p>
+            <p><?php echo $exp['proff'][$i]; ?></p>
+            <?php endfor;?>
+            <h3>О себе</h3>
+            <p><?php echo $list[0]['desc']?></p>
 
         </div>
         <div class="col-md-12">

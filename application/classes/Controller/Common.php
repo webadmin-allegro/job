@@ -21,11 +21,17 @@ abstract class Controller_Common extends Controller_Template {
 
         $user = ORM::factory('User')->where('id','=',Auth::instance()->get_user())->find();
 
+        $employment= Model::factory('Category')->get_employment(true);
+        $curr = Model::factory('Category')->get_curr(true);
+
+
         View::set_global(array(
         'title' => !isset($this->title)?$this->main_config->get('title'):$this->title,
 	    'keywords' => !isset($this->keywords)?$this->main_config->get('keywords'):$this->keywords,
         'description' => !isset($this->description)?$this->main_config->get('description'):$this->description,
-        'user'  => $user ? $user : false,
+        'user'  => $user ?: false,
+        'employment' => $employment ?: false,
+        'curr'  => $curr ?: false,
          )); 
 		 
     }

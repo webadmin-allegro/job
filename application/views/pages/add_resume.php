@@ -4,6 +4,9 @@
     </div>
 </div>
 
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo URL::base(true); ?>media/css/select.css">
+<script type='text/javascript' src="<?php echo URL::base(true); ?>media/js/select.js"></script>
+
 <div class="add_vac">
     <div class="container">
         <h3 style="color: red;"><?php if (!empty ($errors) && is_array($errors)) foreach( $errors as $v) echo $v.'<br>';?></h3>
@@ -58,10 +61,10 @@
                                 <p>Выберите уровень образования</p>
                                 <select id="typeId" name="education[type][]" class="input-block-level" required style="width: 233px;">
                                     <option></option>
-                                    <option value="1">высшее</option>
-                                    <option value="2">неоконченное высшее</option>
-                                    <option value="3">средне-специальное</option>
-                                    <option value="4">среднее</option>
+                                    <option value="высшее">высшее</option>
+                                    <option value="неоконченное высшее">неоконченное высшее</option>
+                                    <option value="средне-специальное">средне-специальное</option>
+                                    <option value="среднее">среднее</option>
                                 </select>
                                 <p></p>
                                 <p class="margin-mmm">Годы обучения:</p>
@@ -101,12 +104,26 @@
                                 <p>Категория размещения резюме<span>*</span></p>
                             </div>
                             <div class="col-xs-7">
-                                <div class="select_category border_illusion options_">
-                                    <ul>
+                                <div>
+
+                                    <select id="proff_parent" class="border_illusion selectpicker" required style="width: auto" name="profession_id" data-live-search="true">
                                         <?php if (!empty($category)) foreach ($category as $v):?>
-                                            <li><input type="checkbox" required name="profession_id[]" value="<?php echo $v['id']?>"><?php echo $v['name']?></li>
+                                            <option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
                                         <?php endforeach; ?>
-                                    </ul>
+                                    </select>
+
+                                  <div><br>
+                                      <ul id="proff_child" class="proff_check options_"> </ul>
+                                      <div id="proff_experience">
+                                      <select class="proff_check">
+                                          <?php if (!empty($experience)) foreach ($experience as $v):?>
+                                              <option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
+                                          <?php endforeach; ?>
+                                      </select>
+                                      </div>
+
+                                  </div>
+
                                 </div>
                             </div>
                         </div>
@@ -254,7 +271,7 @@
 
                     </div>
                 </div>
-                  <input type="hidden" name='id' value="<?php echo $user->id;?>">
+                    <input type="hidden" name='id' value="<?php echo $user->id;?>">
                     <?php echo Form::hidden('csrf', Security::token());?>
 
                 <div class="block">
@@ -279,8 +296,7 @@
 
 <script>
 
-    $('#Lnk').on('click', function(e){
-        e.preventDefault();
+    $('#Lnk').on('click', function(){
 
         $.post(
             '/resume/preview', $("#form_for_all").serialize(),
@@ -290,6 +306,7 @@
                 }
             }
         );
+        return false;
     });
     function education_add(class_name){
         var c = '.' + class_name + ":last";
@@ -298,6 +315,7 @@
         $(c).after(block);
     }
     $(function(){
+        $(document).on('change', '.options_ input[type=checkbox]', function() {
         var requiredCheckboxes = $('.options_ :checkbox[required]');
         requiredCheckboxes.change(function(){
             if(requiredCheckboxes.is(':checked')) {
@@ -307,4 +325,70 @@
             }
         });
     });
+    });
+
+
+    $( document ).ready(function() {
+        $('.selectpicker').selectpicker();
+    });
+
+
+
+    $(function() {
+        $(document).on('change', 'select#proff_parent', function() {
+
+           var parent_id = $("#proff_parent").val();
+
+            if(parent_id) {
+
+                $.ajax({
+                    type: "POST",
+                    url: '/resume/proff_ajax',
+                    data: {id : parent_id},
+                    dataType: "json",
+                    cache: false,
+                    success: function(html) {
+
+                        $("#proff_child").empty();
+
+                            $.each(html, function(id, value) {
+                                $('#proff_child').append($("<li><input required value='"+ id +"' name='profession_id[]' type='checkbox'><span>" + value + "</span></li>"));
+                            });
+
+                        $('#proff_child').css("display","block");
+
+                    }
+
+                });
+
+            }
+            return false;
+        });
+
+
+    });
+
+    $(function() {
+        $(document).on('change', '#proff_child li', function() {
+
+            var block =   $("#proff_experience:last").clone() ;
+
+            var child_id =  $('input',this).val();
+            var child_value =  $('span',this).text();
+            var status = $('input',this).prop("checked");
+
+            if (status == true){
+                $(block).addClass('proff_' + child_id).find('select').attr({required:'required',name:'experience_id[]'}).prepend('<option selected disabled>Укажите опыт ' + child_value + '</option>').addClass("selectpicker").selectpicker('refresh');
+                $("#proff_experience:last").after(block);
+            }else{
+                $('.proff_' + child_id).remove();
+            }
+
+
+            return false;
+        });
+
+
+    });
+
 </script>

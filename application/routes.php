@@ -26,6 +26,12 @@ if (!Route::cache()) {
             'action'     => 'index',
         ));
 
+    Route::set('cat', '<categories>/<id>/<artname>(/<page>)',array('id' => '[0-9]+'),array('artname' => '.+'),array('page' => '[0-9]+'))
+        ->defaults(array(
+            'controller' => 'category',
+            'action'     => 'index',
+        ));
+
     Route::set('do_search', 'search(/<artname>)', array('artname' => '.*'))
     ->defaults(array(
     'controller'  => 'search',

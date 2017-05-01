@@ -4,7 +4,7 @@
 	var text=$(this).text();
 	var parent_id=$(this).attr('parent_id');
 	//alert(id);
-	//	delSelected();
+	//	delSelected();creat_new_category
 	//	$(this).addClass("nodeTreeSelected");
 	
 	$('#contextMenu').css('position','absolute');
@@ -32,11 +32,13 @@ $('a[rel=cansel_context]').live("click", function(){
 	
 	//Обработка  нажатия кнопки создания новой подкатегории
 		$('a[rel=creat_new_category]').live("click", function(){
-		var id=$(this).attr('id');
-		var parent_name=$(this).attr('name');
-		
+		var param=$(this).data('param');
+		var parent_name = $(this).attr('parent_name');
+		var id = $(this).attr('id');	
+
 		$('#parent_name').html(parent_name);
 		$('#parent_id').html(id);
+		$('input[name=send_email]').val(param);
 
         $('input[name=edit_id]').val(id);
 			$('#contextMenu').css('display','none');

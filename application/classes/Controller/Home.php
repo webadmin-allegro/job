@@ -4,11 +4,11 @@ class Controller_Home extends Controller_Common {
 
       public function action_index()
 	  {
-       //$id = $this->request->param('id');
-          $content = View::factory('/pages/main');
-        //  $news = Model::factory('categ')->get_main();
 
-         // $content->news = $news;
+          $content = View::factory('/pages/main');
+          $news = Model::factory('category')->get_table();
+
+          $content->list = $news;
           $this->template->content = $content;
       }
 

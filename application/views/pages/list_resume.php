@@ -146,7 +146,7 @@
 </div>
 <div class="container">
 
-    <?php if ($list)?>
+    <?php if ($list):?>
 
     <div class="row" style="margin-left: 0; margin-right: 0;">
         <div class="headervakanse">
@@ -165,8 +165,19 @@
             </div>
             <h2><a href="/resume/cv/<?php echo $v['id']?>"><?php echo $v['position']?></a></h2>
             <p><?php echo $v['username']?> , <?php echo Helper_MyUrl::Calculate_Age($v['age']);?> года, <?php echo $v['residence']?></p>
-            <p><?php echo $v['employment_name']?> занятость. Опыт работы от 2 лет. Среднее специальное образование.
-                Баядера Групп • крупный национальный холдинг, специализирующийся на производстве и реализации высококачественной…</p>
+            <p><?php if ($employment[$v['employment_id']]) echo $employment[$v['employment_id']];?> занятость.Желаемая зарплата: <?php echo $v['wage']?> <?php if ($curr[$v['curr_id']]) echo $curr[$v['curr_id']];?>.
+              Опыт работы:  <?php $exp = unserialize($v['experience']);?>
+                <?php if (is_array($exp)) for ($i=0;$i<count($exp['name']);$i++):?>
+            <?php echo $exp['name'][$i]; ?>: <?php echo $exp['on'][$i]; ?>-<?php echo $exp['off'][$i]; ?>
+            <?php echo $exp['proff'][$i]; ?>.
+            <?php endfor;?>
+                Образование: <?php $ed = unserialize($v['education']);?>
+                <?php if (is_array($ed)) for ($i=0;$i<count($ed['name']);$i++):?>
+            <?php echo $ed['type'][$i]; ?>
+            <?php echo $ed['name'][$i]; ?>: <?php echo $ed['on'][$i]; ?>-<?php echo $ed['off'][$i]; ?>
+            <?php echo $ed['proff'][$i]; ?>
+            <?php endfor;?>.
+            </p>
         </div>
 
         <?php endforeach;?>
@@ -174,7 +185,7 @@
         <div class="col-md-12">
         </div>
     </div>
-
+<?php endif; ?>
 
 </div>
  

@@ -5,7 +5,7 @@
         </a>
     </div>
     <div class="footer_right">
-        <p><a href="/support.php" >Техническая поддержка </a></p>
+        <p><a href="/" >Техническая поддержка </a></p><!--support.php-->
         <p>Все права защищены ®</p>
     </div>
 </footer>

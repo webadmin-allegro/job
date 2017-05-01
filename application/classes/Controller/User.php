@@ -47,13 +47,14 @@ class Controller_User extends Controller_Common {
                     'phone' => $_POST['phone'],
                     'role_id'=>1,
                     'img' => $file ? $file : null,
+                    'created' => date('U'),
                     'password_confirm' => $_POST['password'],
                    // 'token' => $token,
                 );
 
                 // Create the user using form values
                 $user = ORM::factory('User')
-                    ->create_user($data, array('username','password','email','phone','role_id','img'));
+                    ->create_user($data, array('username','password','email','phone','role_id','img','created'));
                 // Grant user login role
                 $user->add('roles', ORM::factory('Role', array('name' => 'login')));
 
@@ -79,9 +80,9 @@ class Controller_User extends Controller_Common {
 
         $content = View::factory('/pages/user/create');
 
-        $country = Model::factory('User')->country('user_page');
+        //$country = Model::factory('User')->country('user_page');
         
-        $content->country = $country;
+        //$content->country = $country;
         $content->errors = $errors;
         
         
@@ -119,8 +120,7 @@ class Controller_User extends Controller_Common {
 
     public function action_logout()
     {
-        // Log user out
-
+        
         Auth::instance()->logout();
      // Redirect to login page
         HTTP::redirect('/');
@@ -147,16 +147,17 @@ class Controller_User extends Controller_Common {
                 $message = "Вы сделали запрос на восстановление пароля. Вы можете получить новый пароль по этой ссылке:\n\n" .
                             ":reset_token_link\n\n" . "Если ссылка не кликабельна, пожалуйста, перейдите на следующую страницу:\n" .
                             ":reset_link\n\n" . "и введите эти данные: Reset Token: :reset_token\nВаш логин: :username\n";
-                $mailer = Email::connect();
+               // $mailer = Email::connect();
                 // Create complex Swift_Message object stored in $message
-                // MUST PASS ALL PARAMS AS REFS
+           
                 $subject = __('Account password reset');
                 $to = $_POST['reset_email'];
-                $from = 'noreply@elegantno.org';
+                $from = 'noreply@jobseor.com';
                 $body = __($message, array(':reset_token_link' => URL::site('user/reset?reset_token=' . $user->reset_token . '&reset_email=' . $_POST['reset_email'], TRUE), ':reset_link' => URL::site('user/reset', TRUE), ':reset_token' => $user->reset_token, ':username' => $user->username));
-                // FIXME: Test if Swift_Message has been found.
-                $message_swift = Swift_Message::newInstance($subject, $body)->setFrom($from)->setTo($to);
-                if ($mailer->send($message_swift))
+               
+               // $message_swift = Swift_Message::newInstance($subject, $body)->setFrom($from)->setTo($to);
+                $message_swift = Email::send('support', $subject, $body, $from, $to);
+                if ($message_swift)
                 {
                     $message = 'Письмо для измененения пароля отправлено на ваш email.';
                 }
@@ -202,17 +203,18 @@ class Controller_User extends Controller_Common {
 
                     $message = "Ваш новый пароль:\n\n" . ":password\n\n" . "Вы можете войти здесь: " . ":link\n\n";
 
-                    $mailer = Email::connect();
+                  //  $mailer = Email::connect();
                     // Create complex Swift_Message object stored in $message
                     // MUST PASS ALL PARAMS AS REFS
                     $subject = __('Account password reset');
                     $to = $_REQUEST['reset_email'];
-                    $from = 'noreply@elegantno.org';
+                    $from = 'noreply@jobseor.com';
                     $body = __($message, array(':link' => URL::site('user/login', TRUE), ':password' => $password));
 
                     // FIXME: Test if Swift_Message has been found.
-                    $message_swift = Swift_Message::newInstance($subject, $body)->setFrom($from)->setTo($to);
-                    if ($mailer->send($message_swift))
+                   // $message_swift = Swift_Message::newInstance($subject, $body)->setFrom($from)->setTo($to);
+                    $message_swift = Email::send('support', $subject, $body, $from, $to);
+                    if ($message_swift)
                     {
                         $message = 'Ваш пароль был успешно изменен и отправлен на ваш email';
                     }

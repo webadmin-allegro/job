@@ -14,13 +14,17 @@
 
                 <div class="ae-widget">
                     <table ><!--  Start of Table -->
-                        <thead><tr><th>ID</th><th>Страны</th><th>Опции</th></tr></thead>
+                        <thead><tr><th>ID</th><th>Страны</th><th>Страницы отображения</th><th>Опции</th></tr></thead>
                         <tbody>
                         <?php  if (!empty($country)) foreach ( $country as $v) : ?>
                         <tr>
 
                                 <td><?=$v['id'];?></td>
-                                <td><input class="edit_country" type="text" name="name" data-id="<?=$v['id'];?>" data-action="edit" value="<?=$v['name'];?>"></td>
+                                <td style="text-align: center"><input class="edit_country" type="text" name="name" data-id="<?=$v['id'];?>" data-action="edit" value="<?=$v['name'];?>"></td>
+                                <td style="text-align: center">
+                                    Страница добавления резюме
+                                    <input data-id="<?=$v['id'];?>" type="checkbox" value="<?php if ($v['resume_page']==1)echo 1;else echo 0;?>" <?php if ($v['resume_page']==1):?> checked <?php endif;?>data-name="resume_page">
+                                </td>
                                 <td>
                                     <a class="delete_country" data-id="<?=$v['id'];?>" data-action="del" style="display: inline-block; width:40px; height:40px; background: url('/media/admin/css/icons/option-sprite.jpg') -77px 4px"></a>
                                 </td>
@@ -119,6 +123,27 @@
             }
         });
 
+        $('input[type=checkbox]').on('change', function() {
+
+            var id = $(this).data("id");
+            var name = $(this).data("name");
+            var value = $(this).val();
+
+            if (value == 1){
+                var val = 0;
+            }else{
+                var val = 1;
+            }
+            $(this).val(val);
+            $.post('/admin_site/main/country/',{id:id,name:name,value:val,action:'checked'}, function (data) {
+
+                if (data == 1) {
+
+                    console.log(val);
+                }
+            });
+
+        });
 
         $('.edit_country').on('change', function() {
 

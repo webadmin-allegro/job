@@ -15,7 +15,7 @@ class Controller_Resume extends Controller_Common {
 
         }
     }
-    
+
 
         public function action_index()
     {
@@ -35,6 +35,25 @@ class Controller_Resume extends Controller_Common {
         $id = $this->request->param('id');
 
         $content = View::factory('/pages/resume');
+
+        $list = Model::factory('Resume')->get_resume_id($id);
+
+
+        if ($list && $list[0]['id']>0){
+            $content->list =  $list;
+        }else{
+            HTTP::redirect('/resume');
+        }
+
+
+        $this->template->content = $content;
+    }
+
+    public function action_edit()
+    {
+        $id = $this->request->param('id');
+
+        $content = View::factory('/pages/edit_resume');
 
         $list = Model::factory('Resume')->get_resume_id($id);
 
@@ -66,6 +85,19 @@ class Controller_Resume extends Controller_Common {
         $content->list =  $list;
         Session::instance()->delete("sess_");
         $this->template->content = $content;
+
+    }
+
+    public function action_proff_ajax()
+    {
+        if ($_POST['id']){
+            $category = Model::factory('Category')->get_table($_POST['id']);
+            foreach ($category as $c){
+                $arr[$c['id']][] = $c['name'];
+            }
+            echo json_encode($arr);
+            exit;
+        }
 
     }
 
@@ -111,12 +143,11 @@ class Controller_Resume extends Controller_Common {
                     $userM->save();
                 }
 
-
                 $data = [
                     'user_id'   => (int)$userM->id,
                     'position'  => $post['position'],
                     'education' => serialize($post['education']),
-                    'profession_id'  => implode(",",$post['profession_id']),
+                    'category_id'  => (int)$post['profession_id'][0],
                     'employment_id'  => (int)$post['employment'],
                     'wage'      => (int)$post['wage'],
                     'curr_id'   => (int)$post['curr'],
@@ -141,11 +172,13 @@ class Controller_Resume extends Controller_Common {
         $category = Model::factory('Category')->get_table();
         $employment= Model::factory('Category')->get_employment();
         $curr = Model::factory('Category')->get_curr();
+        $experience= Model::factory('Category')->get_experience();
 
         $content->country = $country;
         $content->category = $category;
         $content->employment = $employment;
         $content->curr = $curr;
+        $content->experience = $experience;
         $content->errors = $errors;
 
         $this->template->content = $content;

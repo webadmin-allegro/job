@@ -653,12 +653,12 @@ footer span {
 }
 
 .main_form span {
-    color: red
+
 }
 
 .main_form a {
     color: red;
-    text-decoration: none
+    text-decoration: none;
 }
 
 .main_form a:hover {
@@ -2221,3 +2221,6 @@ div .reg_user {
  .radios-as-buttons input:focus:invalid + label {
     background: rgba(233, 75, 75, 0.48);
 }
+
+ .proff_check {display: none;list-style-type:none;}
+.proff_check span{margin-left: 10px;}

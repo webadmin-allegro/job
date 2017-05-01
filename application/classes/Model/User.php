@@ -23,7 +23,7 @@ class Model_User extends Model_Auth_User
     public function country($param=false)
     {
 
-        $db = DB::select('id','name');
+        $db = DB::select('*');
         $db->from('country');
         if ($param) $db->where($param, '=', 1);
         $db->order_by('name','ASC');

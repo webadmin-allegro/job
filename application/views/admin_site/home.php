@@ -81,7 +81,7 @@
 
                 <ul style="font-weight: bold;color: #000000;font-size: 16px;">
 
-                    <li><a href="#">Меню категорий</a>
+                    <li><a href="/admin_site/main/resume">Резюме</a>
                         
                     </li>
                     <li><a href="#">Организации</a>

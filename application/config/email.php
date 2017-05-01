@@ -28,7 +28,7 @@ return array(
 	//'options' => NULL
     'options' => array(
         'hostname' => 'smtp.yandex.ru',
-        'username' => 'noreply@elegantno.org',
+        'username' => 'noreply@jobseor.com',
         'password' => 'noreply9',
         'port'     => 25,
         //'encryption' => 'ssl'

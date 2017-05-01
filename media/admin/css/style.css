@@ -434,3 +434,51 @@ td{
  select,option #category_edit_select {font-size: 18px; font-weight: bold; width: 150px;}
 
  #pagetable, .table td {text-align:center;}
+
+.frame_prod-on_off {
+    width: 42px;
+    height: 22px;
+    position: relative;
+    vertical-align: middle;
+    display: inline-block;
+    overflow: hidden;
+    cursor: pointer;
+    margin-top: 9px;
+}
+
+.prod-on_off {
+    width: 42px;
+    height: 22px;
+    background-position: -65px -25px;
+    position: absolute;
+    left: 0!important;
+    top: 0!important;
+}
+
+.prod-on_off.disable_tovar {
+    background-position: -65px 0;
+}
+
+.disable_tovar {
+    left: -28px;
+}
+
+.prod-on_off {
+    background-image: url(../css/i/my_icon.png) !important;
+    display: inline-block;
+    position: relative;
+    font-size: 0 !important;
+    line-height: 0 !important;
+}
+
+.delete_resume {
+    display: inline-block;
+    width:40px;
+    height:40px;
+    vertical-align: middle;
+    background: url('/media/admin/css/icons/option-sprite.jpg') -77px 4px;
+}
+
+.resume_pochta img {width: 30px}
+
+.resume_pochta {display: inline-block; vertical-align: middle; margin-top: 5px; margin-right: 10px;}

@@ -316,12 +316,12 @@ class Controller_Admin_Main extends Controller_Common {
         if ($_POST){
 
             if ($_POST['id'] && $_POST['action'] == 'del') {
-                
+
                 $id = (int)$_POST['id'];
                 DB::delete('country')->where('id', '=', $id)->execute();
                 echo 1;
                 exit;
-                
+
             }else if ($_POST['id'] && $_POST['action'] == 'edit'){
 
                 $id = (int)$_POST['id'];
@@ -335,9 +335,14 @@ class Controller_Admin_Main extends Controller_Common {
 
                 HTTP::redirect('/admin_site/main/country/');
                 
+            }else if ($_POST['id'] && $_POST['action'] == 'checked'){
+
+                DB::update('country') ->set([$_POST['name']=>$_POST['value']])->where('id', '=', $_POST['id'])->execute();
+
+                echo 1;
+                exit;
+
             }
-            
-                        
             
         }
         
@@ -348,64 +353,74 @@ class Controller_Admin_Main extends Controller_Common {
 
     }
     
-
-    public function action_categ()
+    public function action_resume()
     {
         //$id = $this->request->param('id');
-        $content = View::factory('/admin_site/categ');
-        $res = DB::select('id','category')
-            ->where('parent_id','=',0)
-            ->from('sort')
-            ->execute();
+        $content = View::factory('/admin_site/resume');
 
-        $group = $res->as_array();
-        $content->group = $group;
+        if ($_POST['id'] && $_POST['status']) {
+            $a = 0;
+            if($_POST['status'] == 'false'){
+                $a = 1;
+            }
+            if($_POST['status'] == 'true'){
+                $a = 2;
+            }
+            $id = (int)$_POST['id'];
+            DB::update('resume') ->set(['active'=>$a])->where('id', '=', $id)->execute();
+            echo 1;
+            exit;
+
+        } else if ($_POST['send_email']) {
+
+            $url = URL::site(NULL, 'http');
+
+            $str = explode(',',$_POST['send_email']);
+         
+            $subject = 'Уважаемый '. $str[0] .' Вам письмо по поводу вашего резюме с сайта '.$url;
+
+            $from = 'admin@'.parse_url($url, PHP_URL_HOST);
+            //$body = __($message, array(':reset_token_link' => URL::site('user/reset?reset_token=' . $user->reset_token . '&reset_email=' . $_POST['reset_email'], TRUE), ':reset_link' => URL::site('user/reset', TRUE), ':reset_token' => $user->reset_token, ':username' => $user->username));
+
+            $message_swift = Email::send('support', $subject, $_POST['text'], $from, $str[1]);
+
+            if ($message_swift){
+                $message = 'Ваше письмо успешно отправлено!';
+            }else{
+                $message = 'Произошла ошибка, Ваше письмо не отправлено!';
+            }
+        }
+
+        $query = DB::select('resume.*','users.username','users.email','users.phone','users.img','users.age','users.emp_applic','users.profession','users.residence')
+            ->join('users','left')
+            ->on('users.id', '=', 'resume.user_id')
+            ->from('resume')
+            ->order_by('created','desc')
+            ->execute()
+            ->as_array();
+        
+        $content->list = $query;
+        $content->message =  $message;
 
         $this->template->content = $content;
 
     }
 
-    public function action_goods()
+
+    public function action_resume_delete()
     {
-        //$id = $this->request->param('id');
-        $content = View::factory('/admin_site/goods');
+        if ($_POST['id']) {
 
-        $sq = "SELECT * FROM data ORDER BY id DESC";
-        $quer = DB::query(Database::SELECT, $sq)
-            ->execute();
-        $news = $quer->as_array();
+            $id = (int)$_POST['id'];
+            DB::delete('resume')->where('id', '=', $id)->execute();
 
-        $res = DB::select('id','category','parent_id')
-            ->from('sort')
-            ->execute();
+            echo 1;
+            exit;
+        }
 
-        $group = $res->as_array();
-
-
-
-        //var_dump($sort);echo "<br>";
-         //var_dump($group);exit;
-
-        $content->group = $group;
-        $content->news = $news;
-        $this->template->content = $content;
 
     }
 
-    public function action_sort()
-    {
-        //$id = $this->request->param('id');
-        $content = View::factory('/admin_site/sort');
-
-        $sq = "SELECT * FROM sort";
-        $quer = DB::query(Database::SELECT, $sq)
-            ->execute();
-        $news = $quer->as_array();
-
-        $content->news = $news;
-        $this->template->content = $content;
-
-    }
 
 
     public function action_goods_edit()
