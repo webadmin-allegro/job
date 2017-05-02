@@ -91,7 +91,7 @@ class Controller_Resume extends Controller_Common {
     public function action_proff_ajax()
     {
         if ($_POST['id']){
-            $category = Model::factory('Category')->get_table($_POST['id']);
+            $category = Model::factory('Category')->get_table((int)$_POST['id']);
             foreach ($category as $c){
                 $arr[$c['id']][] = $c['name'];
             }

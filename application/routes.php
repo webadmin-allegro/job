@@ -26,7 +26,7 @@ if (!Route::cache()) {
             'action'     => 'index',
         ));
 
-    Route::set('cat', '<categories>/<id>/<artname>(/<page>)',array('id' => '[0-9]+'),array('artname' => '.+'),array('page' => '[0-9]+'))
+    Route::set('cat', '<categories>/<id>/<artname>(/<filters>(/<page>))',array('id' => '[0-9]+'),array('artname' => '.+'),array('filter' => '.+'),array('page' => '[0-9]+'))
         ->defaults(array(
             'controller' => 'category',
             'action'     => 'index',

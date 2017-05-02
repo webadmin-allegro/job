@@ -7,6 +7,7 @@ class Model_Category extends Model
     protected $_tableCurr = 'curr';
     protected $_tableEx = 'experience';
     protected $_tableCountry = 'country';
+    protected $filterOptions = [];
 
 
     public function get_table($param=false)
@@ -73,6 +74,52 @@ class Model_Category extends Model
         }
         return $result;
 
+    }
+
+    public function get_category($id,$filters = false)
+    {
+        /*  $this->filterOptions = [
+            'rule' => ['condition' => '='],
+            'rule2' => ['condition' => '>'],
+        ];
+
+        foreach ($filters as $filterName => $filterValue)
+        {
+            if (isset($this->filterOptions[$filterName]))
+            {
+                $object->where($filterName, $this->filterOptions[$filterName],$filterValue);
+            }
+        } */
+
+        $items = 10;
+
+        $query = DB::select('r.*','u.username','u.age','u.img','u.phone','u.email','u.residence')
+            ->from(array('resume','r'))
+            ->join(array('users','u'))
+            ->on('u.id', '=', 'r.user_id')
+            ->where('r.active', '=', 1)
+            ->and_where('r.category_id', '=', $id);
+
+        //$pagination_query = clone $query;
+        $count = $query->execute()->count();
+
+        $paginator = Pagination::factory(array(
+            'total_items' => $count,
+            'items_per_page' => $items,
+
+        ));
+
+        $category = $query
+            ->order_by('id','DESC')
+            ->limit($paginator->items_per_page)
+            ->offset($paginator->offset)
+            ->execute()
+            ->as_array();
+
+        $filter = DB::select()->from($this->_tableC)->where('parent_id', '=', $id)
+            ->execute()->as_array();
+
+        return ['category'=>$category,'filter'=>$filter,'paginator' => $paginator];
     }
 
 }

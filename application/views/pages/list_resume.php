@@ -150,7 +150,7 @@
 
     <div class="row" style="margin-left: 0; margin-right: 0;">
         <div class="headervakanse">
-            Найдено: <?php echo $list[0]['count'];?> резюме. <span style="float: right;">За последние 30 дней</span>
+            Найдено: <?php echo count($list);?> резюме. <span style="float: right;">За последние 30 дней</span>
         </div>
 
         <?php foreach ($list as $v): ?>

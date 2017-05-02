@@ -134,8 +134,9 @@ Kohana::modules(array(
 	// 'unittest'   => MODPATH.'unittest',   // Unit testing
 	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 	// 'rbac'        => MODPATH.'rbac',
-	'ulogin'   => MODPATH.'ulogin',
-	'email'    => MODPATH.'email',
+    'pagination' => MODPATH.'pagination',
+	'ulogin'     => MODPATH.'ulogin',
+	'email'      => MODPATH.'email',
 ));
 
 /**
