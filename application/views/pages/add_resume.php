@@ -106,7 +106,7 @@
                             <div class="col-xs-7">
                                 <div>
 
-                                    <select id="proff_parent" class="border_illusion selectpicker" required style="width: auto" name="profession_id" data-live-search="true">
+                                    <select id="proff_parent" class="border_illusion selectpicker" required style="width: auto" name="profession_id[]" data-live-search="true">
                                         <?php if (!empty($category)) foreach ($category as $v):?>
                                             <option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
                                         <?php endforeach; ?>

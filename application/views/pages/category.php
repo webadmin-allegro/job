@@ -1,4 +1,5 @@
-﻿<div class="full-width_blue-background">
+﻿<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+<div class="full-width_blue-background">
     <div class="container" id="breadcumps">
         <a href="/">Главная</a> -> <a href="e">Категория</a>
     </div>
@@ -6,10 +7,17 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-          <?php  if ($arr['category'])
-          foreach ($arr['filter'] as $v):?>
-         <div><input type="checkbox" name="" value="<?php echo $v['id']?>"><?php echo $v['name']?></div>
+            <form method="get" class="form-inline">
+                <h3>Категории</h3>
+
+          <?php  if ($arr['filter']) foreach ($arr['filter'] as $k=>$v):?>
+                 <div class="checkbox checkbox-success">
+         <input type="checkbox" name="category[]" id="checkbox<?php echo $k;?>" value="<?php echo $v['id']?>">
+              <label for="checkbox<?php echo $k;?>"><?php echo $v['name']?></label>
+                </div><br>
           <?php endforeach;?>
+
+            </form>
         </div>
         <div class="col-md-8">
             <?php if ($arr['category']):
