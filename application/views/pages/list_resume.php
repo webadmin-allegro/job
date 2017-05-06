@@ -5,155 +5,70 @@
 </div>
 <div class="sortvakanse">
     <div class="container">
+        <form method="post">
         <div class="rowsort">
             <p>Категория:</p>
-            <select>
-                <option>Все</option>
-                <option>Сельское хозяйство</option>
-                <option>Строительство, архитектура</option>
-                <option>Сфера обслуживания</option>
-                <option>Транспорт, водители</option>
-                <option>Рабочие на производство</option>
-                <option>Другие сферы</option>
-                <option>Гостинично-ресторанный бизнес</option>
-                <option>Охрана, безопасность</option>
-                <option>Красота, спорт</option>
-                <option>Издательство, полиграфия</option>
-                <option>Работа для студентов</option>
-                <option>Работа на дому</option>
-                <option>IT</option>
-                <option>Руководство среднего звена</option>
-                <option>Бухгалтерия, аудит</option>
-                <option>Культура, музыка, шоу-бизнес</option>
-                <option>Логистика, склад, ВЭД</option>
-                <option>Дизайн, творчество</option>
-                <option>Маркетинг, реклама, PR</option>
-                <option>Медицина, фармацевтика</option>
-                <option>Образование, наука</option>
-                <option>Секретариат, делопроизводство</option>
-                <option>Руководство высшего звена</option>
-                <option>Телекоммуникации и связь</option>
+            <select name="category_id" style="max-width: 300px">
+                <option value="0">Все</option>
+                <?php if (!empty($category)) foreach ($category as $v):?>
+                    <option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
+                <?php endforeach; ?>
             </select>
         </div>
         <div class="rowsort">
             <p>Страна:</p>
-            <select>
-                <option>Любая</option>
-                <option>Австрия</option>
-                <option>Австралия</option>
-                <option>Албания</option>
-                <option>Ангола</option>
-                <option>Алжир</option>
-                <option>Аруба</option>
-                <option>Аргентина</option>
-                <option>Бангладеш</option>
-                <option>Бельгия</option>
-                <option>Болгария</option>
-                <option>Боливия</option>
-                <option>Венгрия</option>
-                <option>Вьетнам</option>
-                <option>Венесуэла</option>
-                <option>Великобритания</option>
-                <option>Гана</option>
-                <option>Гвинея</option>
-                <option>Германия</option>
-                <option>Греция</option>
-                <option>Гренландия</option>
-                <option>Дания</option>
-                <option>Зимбамве</option>
-                <option>Индия</option>
-                <option>Индонезия</option>
-                <option>Иран</option>
-                <option>Испания</option>
-                <option>Италия</option>
-                <option>Ирландия</option>
-                <option>Исландия</option>
-                <option>Камерун</option>
-                <option>Канада</option>
-                <option>Колумбия</option>
-                <option>Конго</option>
-                <option>Конго(ДРК)</option>
-                <option>Китай</option>
-                <option>Куба</option>
-                <option>Латвия</option>
-                <option>Латва</option>
-                <option>Мальта</option>
-                <option>Марокко</option>
-                <option>Мьянма(Бирма)</option>
-                <option>Мексика</option>
-                <option>Нидеранды</option>
-                <option>Норвегия</option>
-                <option>Новая Зеландия</option>
-                <option>ОАЄ</option>
-                <option>Папуа-Новую Гвинею</option>
-                <option>Польша</option>
-                <option>Португалия</option>
-                <option>Панама</option>
-                <option>Пуэрто-Рико</option>
-                <option>Саудовская Аравия</option>
-                <option>Словения</option>
-                <option>Словакия</option>
-                <option>Сингапур</option>
-                <option>Сьерра Леоне</option>
-                <option>США</option>
-                <option>Уругвай</option>
-                <option>Уганда</option>
-                <option>Финляндия</option>
-                <option>Франция</option>
-                <option>Филиппины</option>
-                <option>Чехия</option>
-                <option>Чили</option>
-                <option>Швейцария</option>
-                <option>Швеция</option>
-                <option>Эстония</option>
-                <option>ЮАР</option>
-                <option>Южная Корея</option>
-                <option>Япония</option>
+            <select name="country_id">
+                <option value="0">Любая</option>
+                <?php if (!empty($country)) foreach ($country as $k=>$v):?>
+                    <option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
+                <?php endforeach; ?>
             </select>
         </div>
         <div class="rowsort">
             <p>Занятость:</p>
-            <select>
-                <option>Любая</option>
-                <option>Полная</option>
-                <option>Не полная</option>
-                <option>Удаленная</option>
+            <select name="employment_id">
+                <option value="0">Любая</option>
+                <?php if (!empty($employment)) foreach ($employment as $k=>$v):?>
+                    <option value="<?php echo $k?>"><?php echo $v?></option>
+                <?php endforeach; ?>
             </select>
         </div>
         <div class="rowsort">
             <p>Образование:</p>
-            <select>
-                <option>Любое</option>
-                <option>Высшее</option>
-                <option>Неоконченное высшее</option>
-                <option>Среднее специальное</option>
-                <option>Среднее</option>
+            <select name="education_type">
+                <option value="0">Любое</option>
+                <?php if (!empty($education_type)) foreach ($education_type as $k=>$v):?>
+                    <option value="<?php echo $k?>"><?php echo $v?></option>
+                <?php endforeach; ?>
 
             </select>
         </div>
         <div class="rowsort">
             <p>Опыт работы:</p>
-            <select>
-                <option>Любая</option>
-                <option>Без опыта</option>
-                <option>1-2 года</option>
-                <option>2-5 лет</option>
-                <option>5-10 лет</option>
-                <option>10-20 лет</option>
+            <select name="experience_id">
+                <option value="0">Любая</option>
+                <?php if (!empty($experience)) foreach ($experience as $v):?>
+                    <option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
+                <?php endforeach; ?>
             </select>
         </div>
+            <div class="rowsort">
+                <p style="visibility: hidden">Нажмите на кнопку</p>
+                <input type="submit" value="Искать">
+            </div>
+        </form>
     </div>
 </div>
 <div class="container">
 
-    <?php if ($list):?>
+    <?php if ($list['list']):?>
 
     <div class="row" style="margin-left: 0; margin-right: 0;">
         <div class="headervakanse">
-            Найдено: <?php echo count($list);?> резюме. <span style="float: right;">За последние 30 дней</span>
+            Найдено: <?php echo count($list['list']);?> резюме. <span style="float: right;">За последние 30 дней</span>
         </div>
 
-        <?php foreach ($list as $v): ?>
+        <?php foreach ($list['list'] as $v): ?>
 
         <div class="vakanceblock">
             <div class="avatarvacanse">
@@ -173,7 +88,7 @@
             <?php endfor;?>
                 Образование: <?php $ed = unserialize($v['education']);?>
                 <?php if (is_array($ed)) for ($i=0;$i<count($ed['name']);$i++):?>
-            <?php echo $ed['type'][$i]; ?>
+            <?php  echo $education_type[$ed['type'][$i]]; ?>
             <?php echo $ed['name'][$i]; ?>: <?php echo $ed['on'][$i]; ?>-<?php echo $ed['off'][$i]; ?>
             <?php echo $ed['proff'][$i]; ?>
             <?php endfor;?>.

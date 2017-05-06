@@ -28,7 +28,7 @@
             <h3>Образование:</h3>
             <?php $ed = unserialize($list[0]['education']);?>
             <?php if (is_array($ed)) for ($i=0;$i<count($ed['name']);$i++):?>
-            <p><?php echo $ed['type'][$i]; ?></p>
+            <p><?php echo $education_type[$ed['type'][$i]]; ?></p>
             <p><?php echo $ed['name'][$i]; ?>: <?php echo $ed['on'][$i]; ?>-<?php echo $ed['off'][$i]; ?></p>
             <p><?php echo $ed['proff'][$i]; ?></p>
             <?php endfor;?>

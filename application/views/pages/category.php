@@ -11,8 +11,9 @@
                 <h3>Категории</h3>
 
           <?php  if ($arr['filter']) foreach ($arr['filter'] as $k=>$v):?>
+              <?php if (is_array($_GET['filter']) && in_array($v['id'], $_GET['filter'])) $check = 'checked'; else $check = ''; ?>
                  <div class="checkbox checkbox-success">
-         <input type="checkbox" name="category[]" id="checkbox<?php echo $k;?>" value="<?php echo $v['id']?>">
+              <input <?=$check;?> type="checkbox" name="filter[]" id="checkbox<?php echo $k;?>" value="<?php echo $v['id']?>">
               <label for="checkbox<?php echo $k;?>"><?php echo $v['name']?></label>
                 </div><br>
           <?php endforeach;?>
@@ -20,8 +21,8 @@
             </form>
         </div>
         <div class="col-md-8">
-            <?php if ($arr['category']):
-                foreach ($arr['category'] as $v): ?>
+            <?php if ($arr['list']):
+                foreach ($arr['list'] as $v): ?>
 
                 <div class="vakanceblock">
                     <div class="avatarvacanse">
@@ -55,3 +56,22 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    $(document).ready(
+        function()
+        {
+            $(".form-inline input:checkbox").change(
+                function()
+                {
+                    //if( $(this).is(":checked") )
+
+                        $(this.form).submit();
+
+                }
+            )
+        }
+    );
+
+</script>

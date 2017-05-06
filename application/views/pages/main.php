@@ -6,8 +6,10 @@
                 </div>
                 <div class="col-sm-6 col-xs-12">
                     <div class="search">
-                        <input type="text" placeholder="Поиск">
+                        <form action="/search">
+                        <input name="text" type="text" placeholder="Поиск">
                         <button type="button" name="button"></button>
+                        </form>
                     </div>
                 </div>
                 <div class="col-sm-3 col-xs-12">

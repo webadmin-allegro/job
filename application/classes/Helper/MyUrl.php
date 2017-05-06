@@ -42,4 +42,16 @@ class Helper_MyUrl
               return $age;
        }
 
+
+    public static function clearData($data, $type="s")
+    {
+        switch ($type) {
+            case "s":
+                return mysqli_real_escape_string(trim(strip_tags($data)));
+            case "i":
+                return (int)$data;
+        }
+    }
+
+
  }

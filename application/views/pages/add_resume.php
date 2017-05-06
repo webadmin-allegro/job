@@ -61,10 +61,9 @@
                                 <p>Выберите уровень образования</p>
                                 <select id="typeId" name="education[type][]" class="input-block-level" required style="width: 233px;">
                                     <option></option>
-                                    <option value="высшее">высшее</option>
-                                    <option value="неоконченное высшее">неоконченное высшее</option>
-                                    <option value="средне-специальное">средне-специальное</option>
-                                    <option value="среднее">среднее</option>
+                                    <?php if (!empty($education_type)) foreach ($education_type as $v):?>
+                                        <option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
+                                    <?php endforeach; ?>
                                 </select>
                                 <p></p>
                                 <p class="margin-mmm">Годы обучения:</p>

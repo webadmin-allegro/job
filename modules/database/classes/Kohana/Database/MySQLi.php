@@ -419,4 +419,15 @@ class Kohana_Database_MySQLi extends Database {
 		return "'$value'";
 	}
 
+
+    public function escapeString($value)
+    {
+        if ($value === NULL)
+        {
+            return 'NULL';
+        }
+        $this->_connection or $this->connect();
+        return	"'".mysqli_real_escape_string($this->_connection,$value)."'";
+    }
+
 } // End Database_MySQLi

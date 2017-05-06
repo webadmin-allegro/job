@@ -20,13 +20,34 @@ class Controller_Resume extends Controller_Common {
         public function action_index()
     {
 
-            $content = View::factory('/pages/list_resume');
+        $content = View::factory('/pages/list_resume');
 
-            $list = Model::factory('Resume')->get_all_resume();
+        $list = Model::factory('Resume')->get_all_resume();
 
-            $content->list = $list[0]['id']>0 ? $list : false;
+        $list['list'] = $list[0]['id']>0 ? $list : false;
 
-            $this->template->content = $content;
+        $country = Model::factory('User')->country('resume_page');
+        $category = Model::factory('Category')->get_table();
+        $experience= Model::factory('Category')->get_experience();
+        $education_type= Model::factory('Category')->get_education_type(true);
+
+            if ($this->request->post()){
+
+                $obj = new Security();
+                $post = $obj->xss_clean($this->request->post());
+
+                foreach ($post as $k=>$v) $this->filters['resume_post'][$k] = (int)$v;
+
+                $list = Model::factory('category')->get_category(null,$this->filters);
+            }
+
+        $content->list = $list;
+        $content->country = $country;
+        $content->category = $category;
+        $content->experience = $experience;
+        $content->education_type = $education_type;
+
+        $this->template->content = $content;
     }
 
 
@@ -38,6 +59,8 @@ class Controller_Resume extends Controller_Common {
 
         $list = Model::factory('Resume')->get_resume_id($id);
 
+        $education_type= Model::factory('Category')->get_education_type(true);
+
 
         if ($list && $list[0]['id']>0){
             $content->list =  $list;
@@ -45,7 +68,7 @@ class Controller_Resume extends Controller_Common {
             HTTP::redirect('/resume');
         }
 
-
+        $content->education_type = $education_type;
         $this->template->content = $content;
     }
 
@@ -82,6 +105,8 @@ class Controller_Resume extends Controller_Common {
         }
         
         $content = View::factory('/pages/preview');
+        $education_type= Model::factory('Category')->get_education_type(true);
+        $content->education_type = $education_type;
         $content->list =  $list;
         Session::instance()->delete("sess_");
         $this->template->content = $content;
@@ -147,6 +172,7 @@ class Controller_Resume extends Controller_Common {
                     'user_id'   => (int)$userM->id,
                     'position'  => $post['position'],
                     'education' => serialize($post['education']),
+                    'education_type' => (int)$post['education']['type'][0],
                     'category_id'  => (int)$post['profession_id'][0],
                     'employment_id'  => (int)$post['employment'],
                     'wage'      => (int)$post['wage'],
@@ -159,7 +185,12 @@ class Controller_Resume extends Controller_Common {
                     'created'   => date('U'),
                 ];
 
-                DB::insert('resume', array_keys($data) )->values($data)->execute();
+                $last_id = DB::insert('resume', array_keys($data) )->values($data)->execute();
+
+                for ($i=0;$i<count($post['profession_id'])-1;$i++){ $p = $i+1;
+                    DB::insert('resume_proff', ['category_id','experience_id','resume_id'] )
+                        ->values([(int)$post['profession_id'][$p],$post['experience_id'][$i]?(int)$post['experience_id'][$i]:1,$last_id[0]])->execute();
+                }
 
                 HTTP::redirect('/user');
 
@@ -173,6 +204,7 @@ class Controller_Resume extends Controller_Common {
         $employment= Model::factory('Category')->get_employment();
         $curr = Model::factory('Category')->get_curr();
         $experience= Model::factory('Category')->get_experience();
+        $education_type= Model::factory('Category')->get_education_type();
 
         $content->country = $country;
         $content->category = $category;
@@ -180,6 +212,7 @@ class Controller_Resume extends Controller_Common {
         $content->curr = $curr;
         $content->experience = $experience;
         $content->errors = $errors;
+        $content->education_type = $education_type;
 
         $this->template->content = $content;
     }
@@ -193,6 +226,7 @@ class Controller_Resume extends Controller_Common {
 
             if ($post['action'] == 'del'){
                 DB::delete('resume')->where('id', '=',(int)$post['id'])->and_where('user_id', '=', $user->id)->execute();
+                DB::delete('resume_proff')->where('resume_id', '=', (int)$post['id'])->execute();
                 echo 1;
                 exit;
             }

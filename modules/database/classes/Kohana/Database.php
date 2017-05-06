@@ -723,4 +723,6 @@ abstract class Kohana_Database {
 	 */
 	abstract public function escape($value);
 
+    abstract public function escapeString($value);
+
 } // End Database_Connection

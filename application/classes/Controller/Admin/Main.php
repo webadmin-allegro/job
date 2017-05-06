@@ -413,6 +413,7 @@ class Controller_Admin_Main extends Controller_Common {
 
             $id = (int)$_POST['id'];
             DB::delete('resume')->where('id', '=', $id)->execute();
+            DB::delete('resume_proff')->where('resume_id', '=', $id)->execute();
 
             echo 1;
             exit;
