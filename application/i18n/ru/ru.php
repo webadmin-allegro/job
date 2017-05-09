@@ -7,10 +7,12 @@ return array(
     ':filed is not allowed file type' => 'Файл в поле "<span>:field</span>" должен иметь расширения <span>:param2</span>.',
     ':field does not match the required format'         => 'Поле "<span>:field</span>" не выбрано',
     ':field must not exceed :param2 characters long' => 'Поле "<span>:field</span>" имеет длину больше чем <span>:param2</span> символа.',
+    ':field must be at least :param2 characters long' => 'Поле "<span>:field</span>" имеет длину меньше чем <span>:param2</span> символа.',
     'username already exists'	=>	'такое имя пользователя еже есть',
     'email already exists'	=>	'Извините такой email еже есть',
     'models/user.email.unique'	=>	'Извините такой email еже есть',
     'contact.csrf.Security::check' => 'ой ой ой',
+    'desc must be at least 150 characters long' => 'Описание должно быть не менше 150 символов',
 
     // Переводы для полей форм
     'name' => 'Ваше имя',

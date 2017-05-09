@@ -477,7 +477,37 @@ class Kohana_Security {
 
     private function _decode_entity($match)
     {
-        return $this->entity_decode($match[0], strtoupper(config_item('charset')));
+        return $this->entity_decode($match[0]);
+    }
+
+    public function entity_decode($str, $charset='UTF-8')
+    {
+        if (stristr($str, '&') === FALSE) return $str;
+
+        // The reason we are not using html_entity_decode() by itself is because
+        // while it is not technically correct to leave out the semicolon
+        // at the end of an entity most browsers will still interpret the entity
+        // correctly.  html_entity_decode() does not convert entities without
+        // semicolons, so we are left with our own little solution here. Bummer.
+
+        if (function_exists('html_entity_decode') && (strtolower($charset) != 'utf-8' OR is_php('5.0.0')))
+        {
+            $str = html_entity_decode($str, ENT_COMPAT, $charset);
+            $str = preg_replace('~&#x(0*[0-9a-f]{2,5})~ei', 'chr(hexdec("\\1"))', $str);
+            return preg_replace('~&#([0-9]{2,4})~e', 'chr(\\1)', $str);
+        }
+
+        // Numeric Entities
+        $str = preg_replace('~&#x(0*[0-9a-f]{2,5});{0,1}~ei', 'chr(hexdec("\\1"))', $str);
+        $str = preg_replace('~&#([0-9]{2,4});{0,1}~e', 'chr(\\1)', $str);
+
+        // Literal Entities - Slightly slow so we do another check
+        if (stristr($str, '&') === FALSE)
+        {
+            $str = strtr($str, array_flip(get_html_translation_table(HTML_ENTITIES)));
+        }
+
+        return $str;
     }
 
     private function _compact_exploded_words($matches)

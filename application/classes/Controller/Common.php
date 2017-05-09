@@ -3,8 +3,8 @@
 abstract class Controller_Common extends Controller_Template {
  
  
-	public $error=array();
-    public $message=array();
+	public $error=[];
+    public $message=[];
 
     public $template = 'home';
 

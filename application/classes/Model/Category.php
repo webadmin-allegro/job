@@ -8,6 +8,8 @@ class Model_Category extends Model
     protected $_tableEx = 'experience';
     protected $_tableCountry = 'country';
     protected $_tableEd = 'education_type';
+    protected $_tableLang = 'lang';
+    protected $_tableLangLevel = 'lang_level';
     protected $filterOptions = [];
 
 
@@ -92,7 +94,35 @@ class Model_Category extends Model
 
     }
 
-    public function get_category($id,$filters = false)
+    public function get_lang($param=false)
+    {
+        $query = DB::select()->from($this->_tableLang)
+            ->execute()->as_array();
+
+        if ($param){
+            foreach ($query as $v) $result[$v['id']]= $v['name'];
+        }else{
+            $result= $query;
+        }
+        return $result;
+
+    }
+
+    public function get_lang_level($param=false)
+    {
+        $query = DB::select()->from($this->_tableLangLevel)
+            ->execute()->as_array();
+
+        if ($param){
+            foreach ($query as $v) $result[$v['id']]= $v['name'];
+        }else{
+            $result= $query;
+        }
+        return $result;
+
+    }
+
+    public function get_category($id,$table,$filters = false)
     {
         /*  $this->filterOptions = [
             'rule' => ['condition' => '='],
@@ -109,43 +139,26 @@ class Model_Category extends Model
 
         $items = 10;
 
-        $query = DB::select('r.*','u.username','u.age','u.img','u.phone','u.email','u.residence')
-            ->from(array('resume','r'))
+        $query = DB::select('t.*','u.username','u.age','u.img','u.phone','u.email','u.residence')
+            ->from(array($table,'t'))
             ->join(array('users','u'))
-            ->on('u.id', '=', 'r.user_id')
-            ->where('r.active', '=', 1);
+            ->on('u.id', '=', 't.user_id')
+            ->where('t.active', '=', 1);
 
-       if ($id>0) $query ->and_where('r.category_id', '=', $id);
+       if ($id>0) $query ->and_where('t.category_id', '=', $id);
 
-        if (is_array($filters['resume_post'])) {
+        if ($filters['resume_post'] && is_array($filters['resume_post'])) {
 
-            foreach ($filters['resume_post'] as $filterName => $filterValue) {
-
-                if ($filterValue > 0) {
-
-                    if ($filterName != 'experience_id') {
-
-                        $query->and_where('r.' . $filterName, '=', $filterValue);
-
-                    }else{
-
-                        $query ->join(array('resume_proff','rp'))
-                            ->on('r.id', '=', 'rp.resume_id')
-                            ->where('rp.experience_id', '=', $filterValue);
-
-                    }
-                }
-
-            }
+            $this->filter_resume_post($query,$filters['resume_post']);
 
         }
 
         if (is_array($filters['category']) || is_array($filters['experience'])){
 
-            $query ->join(array('resume_proff','rp'))
-                   ->on('r.id', '=', 'rp.resume_id')
-                   ->where('rp.category_id', 'IN', $filters['category'])
-                   ->group_by('r.id');
+            $query ->join(array($table.'_proff','tp'))
+                   ->on('t.id', '=', 'tp.'.$table.'_id')
+                   ->where('tp.category_id', 'IN', $filters['category'])
+                   ->group_by('t.id');
 
         }
 
@@ -169,6 +182,32 @@ class Model_Category extends Model
             ->execute()->as_array();
 
         return ['list'=>$category,'filter'=>$filter,'paginator' => $paginator];
+    }
+
+
+    protected function filter_resume_post ($query,$filters){
+
+        foreach ($filters as $filterName => $filterValue) {
+
+            if ($filterValue > 0) {
+
+                if ($filterName != 'experience_id') {
+
+                    $query->and_where('t.' . $filterName, '=', $filterValue);
+
+                }else{
+
+                    $query ->join(array('resume_proff','rp'))
+                        ->on('t.id', '=', 'rp.resume_id')
+                        ->where('rp.experience_id', '=', $filterValue);
+
+                }
+            }
+
+        }
+
+
+
     }
 
 }

@@ -2283,3 +2283,10 @@ div .reg_user {
     border-color: #5cb85c; }
 .checkbox-success input[type="checkbox"]:checked + label::after {
     color: #fff; }
+
+.lang_s{
+    border: 1px solid  #000; cursor: pointer; padding: 3px; display: inline-block; margin-bottom: 5px;
+}
+.lang_t ul{list-style-type:none;}
+
+.lang_t {display: none;}

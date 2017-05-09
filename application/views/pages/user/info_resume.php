@@ -21,7 +21,7 @@
 
                     <div class="objavlenie">
 
-                        <?php if ($resume) foreach ($resume as $v):?>
+                        <?php if ($list) foreach ($list as $v):?>
                         <div class="post-control_center row">
                             <div class="col-xs-12">
 
@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="data" style="width: 120px; margin-left: 25px">
                                     <?php if($v['active'] == 1):?>
-                                    <p><a href="/resume/cv/<?php echo $v['id'];?>">Ваше резюме размещено</a></p>
+                                    <p><a href="/resume/cv/<?php echo $v['id'];?>/">Ваше резюме размещено</a></p>
                                     <?php  elseif($v['active'] == 2):?>
                                         <p>Ваше резюме заблокировано ! Свяжитесь с администратором.</p>
                                     <?php elseif($v['active'] == 3):?>

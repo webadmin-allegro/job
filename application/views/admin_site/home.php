@@ -84,13 +84,15 @@
                     <li><a href="/admin_site/main/resume">Резюме</a>
                         
                     </li>
-                    <li><a href="#">Организации</a>
-
-                    </li>
                     <li><a href="/admin_site/main/users">Пользователи</a>
                     
                     </li>
-                    <li><a href="/admin_site/main/country">Страны</a>
+                    <li><a class="main-item" href="javascript:void(0);">Настройки</a>
+                        <ul class="sub-menu">
+                            <li><a href="/admin_site/main/country">Страны</a></li>
+                            <li><a href="/admin_site/main/lang">Языки</a></li>
+                        </ul>
+
 
                     </li>
                     <li><a href="#">Статические страницы</a>
@@ -106,7 +108,17 @@
 
         <!--  End of Widget Box -->
 
+<style>
+    .sub-menu  { display: none; }
+</style>
+        <script>
+            $( document ).ready(function() {
+                $(".main-item").click(function () {
+                    $(".sub-menu").toggle("slow");
+                });
 
+            });
+        </script>
     </div><!--  End of Left Column -->
 
     <?php if (!empty($content)) echo $content;?>

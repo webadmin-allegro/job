@@ -3,17 +3,15 @@
 class Controller_Resume extends Controller_Common {
 
 
+    protected $_table	= 'resume';
+
     public function before()
     {
         parent::before();
 
-        $this->auth = Auth::instance();
+      //  if (!Auth::instance()->logged_in())   HTTP::redirect('/user/login');
 
-        if (!$this->auth->logged_in()) {
 
-            HTTP::redirect('/user/login');
-
-        }
     }
 
 
@@ -38,7 +36,7 @@ class Controller_Resume extends Controller_Common {
 
                 foreach ($post as $k=>$v) $this->filters['resume_post'][$k] = (int)$v;
 
-                $list = Model::factory('category')->get_category(null,$this->filters);
+                $list = Model::factory('category')->get_category(null,$this->_table,$this->filters);
             }
 
         $content->list = $list;
@@ -74,6 +72,11 @@ class Controller_Resume extends Controller_Common {
 
     public function action_edit()
     {
+        if (!Auth::instance()->logged_in()) {
+
+            HTTP::redirect('/user/login');
+
+        }
         $id = $this->request->param('id');
 
         $content = View::factory('/pages/edit_resume');
@@ -129,6 +132,13 @@ class Controller_Resume extends Controller_Common {
 
     public function action_add()
     {
+
+        if (!Auth::instance()->logged_in()) {
+
+              HTTP::redirect('/user/login');
+
+        }
+
         $content = View::factory('/pages/add_resume');
         $errors = false;
 
@@ -145,6 +155,7 @@ class Controller_Resume extends Controller_Common {
                    ->rule('country', 'not_empty')
                    ->rule('employment', 'not_empty')
                    ->rule('wage', 'not_empty')
+                   ->rule('desc', 'max_length', array(':value', 500))
                    ->rule('age', 'not_empty');
             $valid->rules('csrf', array(
                     array('not_empty'),
@@ -181,7 +192,7 @@ class Controller_Resume extends Controller_Common {
                     'country_id'=> (int)$post['country'],
                     'active'    => 0,
                     'experience'=> serialize($post['experience']),
-                    'desc'      => $post['desc']?:null,
+                    'description'      => $post['desc']?:null,
                     'created'   => date('U'),
                 ];
 
@@ -214,7 +225,13 @@ class Controller_Resume extends Controller_Common {
         $content->errors = $errors;
         $content->education_type = $education_type;
 
-        $this->template->content = $content;
+        if (Auth::instance()->get_user()->emp_applic != 1){
+            $message = 'Если хотите добавить резюме, зарегистрируйтесь как соискатель !';
+            $this->template->content = View::factory('/pages/message')->bind('message', $message);
+        }else{
+            $this->template->content = $content;
+        }
+
     }
 
     public function action_hidden_resume()

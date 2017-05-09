@@ -25,6 +25,7 @@ class Model_Auth_User extends ORM {
         'emp_applic'  => NULL,
         'role_id'     => NULL,
 		'created'     => NULL,
+        'company_name'=> NULL,
         'reset_token' => NULL);
 
 	/**

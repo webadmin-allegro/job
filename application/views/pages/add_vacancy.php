@@ -1,11 +1,15 @@
 <div class="full-width_blue-background">
     <div class="container" id="breadcumps">
-        <a href="/">Главная</a> -&gt; Добавить резюме
+        <a href="/">Главная</a> -&gt; Добавить вакансию
     </div>
 </div>
 
 <link rel="stylesheet" type="text/css" media="all" href="<?php echo URL::base(true); ?>media/css/select.css">
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo URL::base(true); ?>media/css/bootstrap3-wysihtml5.css">
 <script type='text/javascript' src="<?php echo URL::base(true); ?>media/js/select.js"></script>
+<script type='text/javascript' src="<?php echo URL::base(true); ?>media/js/bootstrap3-wysihtml5.all.js"></script>
+<script type='text/javascript' src="<?php echo URL::base(true); ?>media/js/bootstrap3-wysihtml5.js"></script>
+<script type='text/javascript' src="<?php echo URL::base(true); ?>media/js/bootstrap-wysihtml5.ru-RU.js"></script>
 
 <div class="add_vac">
     <div class="container">
@@ -16,7 +20,7 @@
                     <div class="info_vac">
                         <div class="row">
                             <div class="col-xs-5">
-                                <h4>Информация о Резюме</h4>
+                                <h4>Добавление вакансии</h4>
                             </div>
                             <div class="col-xs-7 right">
                             </div>
@@ -26,9 +30,47 @@
                 <div class="block">
 
                     <div class="row">
+                        <div class="vac_town">
+                            <div class="col-xs-5">
+                                <p>Название вакансии<span>*</span></p>
+                            </div>
+                            <div class="col-xs-7">
+                                <div class="town">
+                                    <input class="border_illusion" required type="text" name="position">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="category_vac">
+                            <div class="col-xs-5">
+                                <p>Рубрика<span>*</span></p>
+                            </div>
+                            <div class="col-xs-7">
+                                <div>
+
+                                    <select id="proff_parent" class="border_illusion selectpicker" required style="width: auto" name="profession_id[]" data-live-search="true">
+                                        <?php if (!empty($category)) foreach ($category as $v):?>
+                                            <option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+
+                                    <div><br>
+                                        <ul id="proff_child" class="proff_check options_"> </ul>
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
                         <div class="country_vac">
                             <div class="col-xs-5">
-                                <p>Ваше ФИО<span>*</span></p>
+                                <p>Контактное лицо<span>*</span></p>
                             </div>
                             <div class="col-xs-7">
                                 <div class="town">
@@ -40,7 +82,7 @@
                     <div class="row">
                         <div class="vac_town">
                             <div class="col-xs-5">
-                                <p>Ваше место жительства<span>*</span></p>
+                                <p>Регион<span>*</span></p>
                             </div>
                             <div class="col-xs-7">
                                 <div class="town">
@@ -49,96 +91,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row education_block">
-                        <div class="vac_worktime">
-                            <div class="col-xs-5">
-                                <p>Ваше образование<span>*</span></p>
-                            </div>
-                            <div class="col-xs-7">
-                                <p>Название учебного заведения:</p>
-                                <input class="border_illusion" required type="text" name="education[name][]">
-                                <p></p>
-                                <p>Выберите уровень образования</p>
-                                <select id="typeId" name="education[type][]" class="input-block-level" required style="width: 233px;">
-                                    <option></option>
-                                    <?php if (!empty($education_type)) foreach ($education_type as $v):?>
-                                        <option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <p></p>
-                                <p class="margin-mmm">Годы обучения:</p>
-                                <p>с <input class="border_illusion" type="number" required name="education[on][]"> по <input required name="education[off][]" class="border_illusion" type="number"> год</p>
-                                <p>Специальность:</p>
-                                <input class="border_illusion" required type="text" name="education[proff][]">
-                                <p></p>
-                                <button type="button" class="btn btn-info" onclick="education_add('education_block')">Добавить учебное заведение</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="age">
-                            <div class="col-xs-5">
-                                <p>Год рождения:<span>*</span></p>
-                            </div>
-                            <div class="col-xs-7">
-                                <p> <input name="age" value="<?php echo $user->age?>" required class="input_width border_illusion" type="date" placeholder="дд.мм.гггг"> </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="vac_town">
-                            <div class="col-xs-5">
-                                <p>Должность, на которой вы хотите работать<span>*</span></p>
-                            </div>
-                            <div class="col-xs-7">
-                                <div class="town">
-                                    <input class="border_illusion" required type="text" name="position">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="category_vac">
-                            <div class="col-xs-5">
-                                <p>Категория размещения резюме<span>*</span></p>
-                            </div>
-                            <div class="col-xs-7">
-                                <div>
 
-                                    <select id="proff_parent" class="border_illusion selectpicker" required style="width: auto" name="profession_id[]" data-live-search="true">
-                                        <?php if (!empty($category)) foreach ($category as $v):?>
-                                            <option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
-                                        <?php endforeach; ?>
-                                    </select>
 
-                                  <div><br>
-                                      <ul id="proff_child" class="proff_check options_"> </ul>
-                                      <div id="proff_experience">
-                                      <select class="proff_check">
-                                          <?php if (!empty($experience)) foreach ($experience as $v):?>
-                                              <option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
-                                          <?php endforeach; ?>
-                                      </select>
-                                      </div>
-
-                                  </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="row">
                         <div class="country_vac">
                             <div class="col-xs-5">
-                                <p>Страна в которой желаете работать<span>*</span></p>
+                                <p>Контактный телефон<span>*</span></p>
                             </div>
                             <div class="col-xs-7">
-                                <div class="select_category select_vac_country">
-                                    <ul>
-                                        <?php if (!empty($country)) foreach ($country as $k=>$v):?>
-                                            <li><input type="radio" <?php if ($k==0):?>required<?php endif; ?> value="<?php echo $v['id']?>" name="country"><?php echo $v['name']?></li>
-                                        <?php endforeach; ?>
-                                    </ul>
+                                <div class="town">
+                                    <input class="border_illusion" required type="tel" name="phone" value="<?php echo $user->phone;?>">
                                 </div>
                             </div>
                         </div>
@@ -146,10 +108,10 @@
                     <div class="row">
                         <div class="vac_worktime">
                             <div class="col-xs-5">
-                                <p>Занятость<span>*</span></p>
+                                <p>Вид занятости<span>*</span></p>
                             </div>
                             <div class="col-xs-7">
-                                <select class="border_illusion" required style="width: auto" name="employment">
+                                <select class="border_illusion selectpicker" required style="width: auto" name="employment">
                                     <?php if (!empty($employment)) foreach ($employment as $v):?>
                                         <option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
                                     <?php endforeach; ?>
@@ -161,11 +123,11 @@
                     <div class="row">
                         <div class="money_vac">
                             <div class="col-xs-5">
-                                <p>Желаемая заработная пaлата<span>*</span></p>
+                                <p>Заработная пaлата<span>*</span></p>
                             </div>
                             <div class="col-xs-7">
                                 <div>
-                                    <p>от <input class="border_illusion" type="number" required name="wage"></p>
+                                    <p><input class="border_illusion" type="number" required name="wage"></p>
                                     <select class="border_illusion" style="width: auto" name="curr">
                                         <?php if (!empty($curr)) foreach ($curr as $v):?>
                                             <option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
@@ -179,20 +141,68 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row experience_block">
-                        <div class="experience">
+                    <div class="row">
+                        <div>
+                            <div class="col-xs-5">
+                                <p>Иностранный язык</p>
+                            </div>
+                            <div class="col-xs-7">
+                                <div>
+                                        <span class="lang_s">Не имеет значения</span>
+                                        <div class="lang_t">
+                                            <ul>
+                                        <?php if (!empty($lang)) foreach ($lang as $v):?>
+                                            <li> <input type="checkbox" name="lang[]" value="<?php echo $v['id']?>"><span><?php echo $v['name']?></span></li>
+                                        <?php endforeach; ?>
+                                            </ul>
+                                        </div>
+
+                                    <div id="lang_level">
+                                        <select class="proff_check">
+                                            <?php if (!empty($lang_level)) foreach ($lang_level as $k=>$v):?>
+                                                <option value="<?php echo $k?>"><?php echo $v?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="money_vac">
                             <div class="col-xs-5">
                                 <p>Опыт работы</p>
                             </div>
-
                             <div class="col-xs-7">
-                                <p class="margin-mmm">Название компании:</p> <input class="input_width border_illusion" type="text" name="experience[name][]">
-                                <p class="margin-mmm">Период работы:</p>
-                                <p>с <input class="border_illusion" type="number" name="experience[on][]"> по <input class="border_illusion" type="number" name="experience[off][]"> год</p>
-                                <p class="margin-mmm">Должность:</p>
-                                <p class="margin-mmm"><input class="input_width border_illusion" type="text" name="experience[proff][]"></p>
-                                <p></p>
-                                <button type="button" class="btn btn-info" onclick="education_add('experience_block')">Добавить место работы</button>
+                                <div>
+                                    <select class="border_illusion selectpicker" style="width: auto" name="experience">
+                                        <option value="0">Не имеет значения</option>
+                                        <?php if (!empty($experience)) foreach ($experience as $v):?>
+                                            <option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="money_vac">
+                            <div class="col-xs-5">
+                                <p>Требуемый уровень образования</p>
+                            </div>
+                            <div class="col-xs-7">
+                                <div>
+                                    <select class="border_illusion selectpicker" style="width: auto" name="education_type">
+                                        <option value="0">Не имеет значения</option>
+                                        <?php if (!empty($education_type)) foreach ($education_type as $v):?>
+                                            <option value="<?php echo $v['id']?>"><?php echo $v['name']?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -200,12 +210,16 @@
                 <div class="block">
                     <div class="row">
                         <div class="col-xs-5">
-                            <p>Дополнительная информация о собе:</p>
-                            <span style="font-size: 10px;"> Примечание: Максимум 500 символов.</span>
+                            <p>Описание вакансии:<span>*</span></p>
+                           <span style="font-size: 10px;"> Примечание: Минимум 150, максимум 500 символов.</span>
                         </div>
                         <div class="col-xs-7">
                             <div class="textarea">
-                                <textarea id="text" class="border_illusion" name="desc" maxlength="500"></textarea>
+                                <textarea id="text" class="border_illusion" name="desc" maxlength="500" minlength="150">
+                                    <p>Требования:</p>
+                                    <p>Условия работы:</p>
+                                    <p>Обязанности:</p>
+                                </textarea>
                             </div>
                         </div>
                     </div>
@@ -284,7 +298,7 @@
                         </div>
                         <div class="col-md-6 col-sm-12 col-xs-12">
                             <div class="load_img ">
-                                <button class="button_width" type="submit" form="form_for_all">Добавить Резюме</button>
+                                <button class="button_width" type="submit" form="form_for_all">Добавить Вакансию</button>
                             </div>
                         </div>
                     </div>
@@ -299,21 +313,16 @@
     $('#Lnk').on('click', function(){
 
         $.post(
-            '/resume/preview', $("#form_for_all").serialize(),
+            '/vacancy/preview', $("#form_for_all").serialize(),
             function(data) {
                 if (data == 1) {
-                    window.open('/resume/preview', '_blank', 'menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes');
+                    window.open('/vacancy/preview', '_blank', 'menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes');
                 }
             }
         );
         return false;
     });
-    function education_add(class_name){
-        var c = '.' + class_name + ":last";
-        var block =  $(c).clone();
-        $( block ).find('input[type=text],input[type=number]').attr('value','');
-        $(c).after(block);
-    }
+
     $(function(){
         $(document).on('change', '.options_ input[type=checkbox]', function() {
         var requiredCheckboxes = $('.options_ :checkbox[required]');
@@ -330,6 +339,22 @@
 
     $( document ).ready(function() {
         $('.selectpicker').selectpicker();
+        $('#text').wysihtml5({
+            locale: "ru-RU",
+            toolbar: {
+            "font-styles": false, //Font styling, e.g. h1, h2, etc. Default true
+            "emphasis": true, //Italics, bold, etc. Default true
+            "lists": true, //(Un)ordered lists, e.g. Bullets, Numbers. Default true
+            "html": false, //Button which allows you to edit the generated HTML. Default false
+            "link": false, //Button to insert a link. Default true
+            "image": false, //Button to insert an image. Default true,
+            "color": false, //Button to change color of font
+            "blockquote": false, //Blockquote
+        },
+        });
+        $(".lang_s").click(function () {
+            $(".lang_t").toggle("slow");
+        });
     });
 
 
@@ -369,17 +394,17 @@
     });
 
     $(function() {
-        $(document).on('change', '#proff_child li', function() {
+        $(document).on('change', '.lang_t li', function() {
 
-            var block =   $("#proff_experience:last").clone() ;
+            var block =   $("#lang_level:last").clone() ;
 
             var child_id =  $('input',this).val();
             var child_value =  $('span',this).text();
             var status = $('input',this).prop("checked");
 
             if (status == true){
-                $(block).addClass('proff_' + child_id).find('select').attr({required:'required',name:'experience_id[]'}).prepend('<option selected disabled>Укажите опыт ' + child_value + '</option>').addClass("selectpicker").selectpicker('refresh');
-                $("#proff_experience:last").after(block);
+                $(block).addClass('proff_' + child_id).find('select').attr({name:'lang_level[]'}).prepend('<option selected disabled>Укажите уровень владения ' + child_value + '</option>').addClass("selectpicker").selectpicker('refresh');
+                $("#lang_level:last").after(block);
             }else{
                 $('.proff_' + child_id).remove();
             }
@@ -390,5 +415,6 @@
 
 
     });
+
 
 </script>

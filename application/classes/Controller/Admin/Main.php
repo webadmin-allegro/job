@@ -352,6 +352,53 @@ class Controller_Admin_Main extends Controller_Common {
         $this->template->content = $content;
 
     }
+
+    public function action_lang()
+    {
+        //$id = $this->request->param('id');
+        $content = View::factory('/admin_site/lang');
+
+        if ($_POST){
+
+            if ($_POST['id'] && $_POST['action'] == 'del') {
+
+                $id = (int)$_POST['id'];
+                DB::delete($_POST['tab'])->where('id', '=', $id)->execute();
+                echo 1;
+                exit;
+
+            }else if ($_POST['id'] && $_POST['action'] == 'edit'){
+
+                $id = (int)$_POST['id'];
+                DB::update($_POST['tab']) ->set(['name'=>$_POST['name']])->where('id', '=', $id)->execute();
+                echo 2;
+                exit;
+
+            }else if ($_POST['action'] == 'add'){
+
+              //  DB::insert('country', array('name')) ->values(array($_POST['name']))->execute();
+
+                HTTP::redirect('/admin_site/main/country/');
+
+            }else if ($_POST['id'] && $_POST['action'] == 'checked'){
+
+              //  DB::update('country') ->set([$_POST['name']=>$_POST['value']])->where('id', '=', $_POST['id'])->execute();
+
+                echo 1;
+                exit;
+
+            }
+
+        }
+
+        $lang = Model::factory('Category')->get_lang();
+        $lang_level = Model::factory('Category')->get_lang_level();
+
+        $content->lang = $lang;
+        $content->lang_level= $lang_level;
+        $this->template->content = $content;
+
+    }
     
     public function action_resume()
     {

@@ -2,12 +2,16 @@
  
 class Helper_MyUrl
  {
-    public static function SEOIt($str)
+    public static function SEOIt($str,$param=false)
      {
          $str = explode('/', $str);
-		 $u = array(' ','.','"',')','(',':',',');
+		 $u = [' ','.','"',')','(',':',','];
          $str = str_replace($u, '-', $str[0]);
 		 $str = rtrim($str,"-");
+		 if ($param){
+             $u = ['х','Х'];
+             $str = str_replace($u, "x", $str);
+         }
         return $str;
      }
 
@@ -51,6 +55,17 @@ class Helper_MyUrl
             case "i":
                 return (int)$data;
         }
+    }
+
+
+    public static function clearTag($str){
+
+        $allowable_tags = '<p><br><ul><li><ol><b><i><u><blockquote>';
+
+        $new  = strip_tags($str, $allowable_tags);
+
+        return $new;
+
     }
 
 

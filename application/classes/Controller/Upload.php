@@ -816,11 +816,6 @@ class Upload {
      * @param	string	$filename
      * @return	string
      */
-    public function clean_file_name($filename)
-    {
-        $CI =& get_instance();
-        return $CI->security->sanitize_filename($filename);
-    }
 
     // --------------------------------------------------------------------
 

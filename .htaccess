@@ -6,8 +6,9 @@ RewriteBase /
 
 # Protect hidden files from being viewed
 <Files .*>
-	Order Deny,Allow
-	Deny From All
+	#Order Deny,Allow
+	#Deny From All
+	Require all denied
 </Files>
 
 # Protect application and system files from being viewed
@@ -19,3 +20,4 @@ RewriteCond %{REQUEST_FILENAME} !-d
 
 # Rewrite all other URLs to index.php/URL
 RewriteRule .* index.php/$0 [PT]
+#RewriteRule ^(.*)$ index.php/$0 [PT]

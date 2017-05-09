@@ -44,6 +44,36 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row hidden employer">
+                        <div class="phone_number">
+                            <div class="col-xs-5">
+                                <p>Название вашей компании<span>*</span></p>
+                            </div>
+                            <div class="col-xs-7">
+                                <input class="input_width" type="text" name="company_name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row hidden employer">
+                        <div class="phone_number">
+                            <div class="col-xs-5">
+                                <p>Ваша должность<span>*</span></p>
+                            </div>
+                            <div class="col-xs-7">
+                                <input class="input_width" type="text" name="profession">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="phone_number">
+                            <div class="col-xs-5">
+                                <p>Ваше местоположение<span>*</span></p>
+                            </div>
+                            <div class="col-xs-7">
+                                <input class="input_width" type="text" name="residence" required>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
 
@@ -83,7 +113,7 @@
 
                     <div class="row">
                         <div class="reg_site">
-                            <div class="col-xs-5">
+                            <div class="col-xs-5 f_logo">
                                 <p>Фото</p>
                             </div>
                             <div class="col-xs-7">
@@ -127,6 +157,19 @@
 
             </div>
         </form>
+
+        <script>
+            $('input[name=emp_applic]').on('click', function(){
+               var val = $( this ).val();
+               if (val == 2){
+                   $('div.employer').attr('style','display:block !important;').find('input[type=text]').prop('required',true);
+                   $('.reg_site .f_logo p').text('Логотип');
+               }else{
+                   $('div.employer').attr('style','display:none').find('input[type=text]').prop('required',false);
+                   $('.reg_site .f_logo p').text('Фото');
+               }
+            });
+        </script>
 
     </div>
 </div>

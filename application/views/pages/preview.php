@@ -39,7 +39,7 @@
                 <p><?php echo $exp['proff'][$i]; ?></p>
             <?php endfor;?>
             <h3>О себе</h3>
-            <p><?php echo $list['desc']?></p>
+            <p><?php echo $list['description']?></p>
 
         </div>
         <div class="col-md-12">

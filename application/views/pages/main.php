@@ -8,7 +8,7 @@
                     <div class="search">
                         <form action="/search">
                         <input name="text" type="text" placeholder="Поиск">
-                        <button type="button" name="button"></button>
+                        <button onclick="submit()" type="button" name="button"></button>
                         </form>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
             </div>
             <div class="col-sm-3"></div>
             <div class="col-sm-6">
-                <a class="links" href="/">Доска вакансий</a><!--http://shengenvisa.net/vakansii.php-->
+                <a class="links" href="/vacancy">Доска вакансий</a><!--http://shengenvisa.net/vakansii.php-->
                 <a class="links" href="/">Кадровые агентства</a><!--http://shengenvisa.net/base-cadrovuh-agenstv.php-->
                 <a class="links" href="/">Визовые центры</a><!--http://shengenvisa.net/vizovue-centru.php-->
             </div>
@@ -44,8 +44,8 @@
           <?php if ($k==0 || $k==6 || $k==12 || $k==18): ?>  <div class="row new"> <?php endif;?>
             <div class="col-md-2 col-sm-4 col-xs-6">
                 <div class="job">
-                    <?php $str = Helper_MyUrl::SEOIt($v['name']); ?>
-                    <a href="/category/<?php echo $v['id'].'/'.$str;?>">
+                    <?php $str = Helper_MyUrl::SEOIt($v['name'],true); ?>
+                    <a href="/resume/<?php echo $v['id'].'/'.$str;?>">
                         <div class="img-wrapper">
                             <img width="110" height="110" class="img-rounded" src="/media/img/<?=$v['img'];?>" title="<?=$v['name'];?>" alt="<?=$v['name'];?>">
                         </div>

@@ -6,9 +6,6 @@ class Controller_User extends Controller_Common {
 
     public function action_index()
     {
-
-        $content = View::factory('/pages/user/info');
-
         // Load the user information
         $user = Auth::instance()->get_user();
         // if a user is not logged in, redirect to login page
@@ -17,9 +14,19 @@ class Controller_User extends Controller_Common {
             HTTP::redirect('/user/login');
         }
 
-        $resume = Model::factory('Resume')->get_user_resume($user->id);
+        if (Auth::instance()->get_user()->emp_applic == 1){
 
-        $content->resume = $resume;
+            $content = View::factory('/pages/user/info_resume');
+            $list = Model::factory('Resume')->get_user_resume($user->id);
+
+        }elseif (Auth::instance()->get_user()->emp_applic == 2){
+
+            $content = View::factory('/pages/user/info_vacancy');
+            $list = Model::factory('Vacancy')->get_user_vacancy($user->id);
+
+        }
+
+        $content->list = $list;
         $content->user = $user;
         $this->template->content = $content;
 
@@ -46,15 +53,19 @@ class Controller_User extends Controller_Common {
                     'email' => $_POST['email'],
                     'phone' => $_POST['phone'],
                     'role_id'=>1,
-                    'img' => $file ? $file : null,
+                    'img' => $file ?: null,
                     'created' => date('U'),
+                    'company_name' => $_POST['company_name'] ?: null,
+                    'profession' => $_POST['profession'] ?: null,
+                    'residence' => $_POST['residence'] ?: null,
+                    'emp_applic' => $_POST['emp_applic'] ?: null,
                     'password_confirm' => $_POST['password'],
                    // 'token' => $token,
                 );
 
                 // Create the user using form values
                 $user = ORM::factory('User')
-                    ->create_user($data, array('username','password','email','phone','role_id','img','created'));
+                    ->create_user($data, array('username','password','email','phone','role_id','img','created','company_name','profession','residence','emp_applic'));
                 // Grant user login role
                 $user->add('roles', ORM::factory('Role', array('name' => 'login')));
 

@@ -5,14 +5,14 @@
 </div>
 <div class="container">
 
+    <div><?php if ($messages) echo $messages; ?></div>
+
     <?php if ($list):?>
 
         <div class="row" style="margin-left: 0; margin-right: 0;">
             <div class="headervakanse">
                 Найдено: <?php echo count($list);?> резюме.
             </div>
-
-           <div><?php if ($messages) echo $messages; ?></div>
 
             <?php foreach ($list as $v): ?>
 
